@@ -1,0 +1,1 @@
+gh api repos/w4ester/cte-month-post/pages -X POST -F build_type=legacy -F 'source[branch]=main' -F 'source[path]=/'
