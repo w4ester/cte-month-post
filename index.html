@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <!-- PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- DOCX Generation - browser bundle -->
@@ -221,10 +219,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .qr-code canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
 
         .qr-info {
             font-size: 0.75rem;
@@ -438,7 +432,7 @@
             </div>
             <div class="post-footer">
                 <div class="qr-section">
-                    <div class="qr-code" id="qr-clusters"></div>
+                    <img class="qr-code" src="images/qr-clusters.png" alt="QR Code for MD CTE Career Clusters">
                     <div class="qr-info">Scan for more:<br>MD CTE Career Clusters</div>
                 </div>
                 <div class="action-buttons">
@@ -466,7 +460,7 @@
             </div>
             <div class="post-footer">
                 <div class="qr-section">
-                    <div class="qr-code" id="qr-ircs"></div>
+                    <img class="qr-code" src="images/qr-ircs.png" alt="QR Code for MSDE-Approved IRCs">
                     <div class="qr-info">Scan for more:<br>MSDE-Approved IRCs</div>
                 </div>
                 <div class="action-buttons">
@@ -494,7 +488,7 @@
             </div>
             <div class="post-footer">
                 <div class="qr-section">
-                    <div class="qr-code" id="qr-ctsos"></div>
+                    <img class="qr-code" src="images/qr-ctsos.png" alt="QR Code for MD CTSOs">
                     <div class="qr-info">Scan for more:<br>MD CTSOs</div>
                 </div>
                 <div class="action-buttons">
@@ -522,7 +516,7 @@
             </div>
             <div class="post-footer">
                 <div class="qr-section">
-                    <div class="qr-code" id="qr-healthcare"></div>
+                    <img class="qr-code" src="images/qr-healthcare.png" alt="QR Code for Healthcare Pathways">
                     <div class="qr-info">Scan for more:<br>Healthcare Pathways</div>
                 </div>
                 <div class="action-buttons">
@@ -572,22 +566,6 @@
 #CTEMonthMD #DidYouKnow #HealthcareCareers`
             }
         };
-
-        // Generate QR codes on load
-        document.addEventListener('DOMContentLoaded', function() {
-            Object.keys(posts).forEach(function(key) {
-                const container = document.getElementById('qr-' + key);
-                if (container && typeof QRCode !== 'undefined') {
-                    const canvas = document.createElement('canvas');
-                    container.appendChild(canvas);
-                    QRCode.toCanvas(canvas, posts[key].url, {
-                        width: 62,
-                        margin: 0,
-                        color: { dark: '#BD0934', light: '#FFFFFF' }
-                    });
-                }
-            });
-        });
 
         // Toast notification
         function showToast(message) {
