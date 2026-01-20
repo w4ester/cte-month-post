@@ -1,211 +1,212 @@
-# CTE Month 2026 Social Media Campaign - Development Log
+# Maryland CTE Month 2026 - "Did You Know?" Social Media Toolkit
 
-*Documentation of the "Side Fun" assignment: Creating MSDE-branded social media posts for CTE Month 2026*
+A self-service toolkit for creating and sharing branded MSDE social media posts for CTE Month and other campaigns.
 
----
+## Quick Links
 
-## Project Summary
-
-Created a complete social media toolkit for Maryland CTE Month 2026, including:
-- 5 social media posts (4 school support + 1 "Did You Know?" submission)
-- Interactive HTML demo page with official MSDE branding
-- QR code generation for each post
-- PDF and DOCX download capability
-- Print-ready formatting
+- **[View All Posts](index.html)** - Browse 9 "Did You Know?" posts ready for sharing
+- **[Create New Post](intake.html)** - Generate a new post using the intake form
 
 ---
 
-## Step-by-Step Process
+## How to Share Posts to Social Media (No Coding Required)
 
-### Step 1: Initial Content Creation (2025 Posts)
+### Method 1: Copy and Paste
 
-**Source:** MSDE Operations and Strategy communications
+1. Go to the [Posts Page](index.html)
+2. Find a post you want to share
+3. Click the **Copy** button
+4. Open your social media platform:
+   - **Twitter/X** - Paste into new tweet
+   - **Facebook** - Paste into new post
+   - **LinkedIn** - Paste into new post
+   - **Instagram** - Paste into caption (add image separately)
+5. If the image doesn't paste automatically:
+   - Right-click the post image on the page
+   - Select "Save Image As..."
+   - Attach the saved image to your social post
+6. Post!
 
-Created 4 initial posts based on real MSDE content:
-1. **P-TECH Joppatowne / CECOM** - Students sworn in as federal employees
-2. **Women in Maryland Construction** - 13% stat (3% above national average)
-3. **National FFA Week** - Maryland FFA: 50 chapters, 2,400+ students
-4. **Carver Vocational-Technical HS** - Black History Month feature (founded 1925)
+### Method 2: Download and Share
 
-**Output:** `docs/outreach/poster-cte-month.md`
+1. Click **PDF** or **DOCX** to download the post as a document
+2. Open the downloaded file
+3. Copy the content from the document
+4. Paste into your social media platform
 
----
+### Method 3: Print for Events
 
-### Step 2: 2026 Posts Update
-
-**Source:** Real photographs and content from MSDE social media reference document
-
-Analyzed 6 reference screenshots showing:
-- Caroline Career and Technical Center - Shed building + Forklift Certifications
-- Colonel Richardson High School - Biomedical program (Stop the Bleed, phlebotomy, dentistry)
-- Calvert County CTE - High schoolers presenting to middle schoolers
-- Harford County CTE Family Night - February 2026 event
-- WCPS Youth Apprentice - SkillsUSA Maryland welding
-- Student with forklift certification card
-
-Created 5 new posts for 2026:
-1. **Caroline CTC** - Construction students earning Forklift Certifications
-2. **Colonel Richardson HS** - Biomedical students (Stop the Bleed, phlebotomy, dentistry)
-3. **Calvert County CTE** - High schoolers advising middle schoolers
-4. **Harford County CTE Family Night** - Save the Date event
-5. **W4ester "Did You Know?"** - Maryland's 14 Career Clusters with 48 Programs of Study
-
-**Output:** `docs/outreach/cte-month-2026-posts.md`
+1. Click the **Print** button on any post
+2. A print-friendly version opens with the image included
+3. Print for bulletin boards, handouts, or events
 
 ---
 
-### Step 3: MSDE Brand Guide Discovery
+## How to Create a New Post
 
-**Location:** `msde-communication/BrandGuide-MSDE/MSDE-BrandGuide-2025-v1.pdf`
+### For Quick Social Media Sharing
 
-Extracted official brand standards:
+1. Go to the [Intake Form](intake.html)
+2. Fill out:
+   - **Post Title** - Short title (e.g., "Work-Based Learning")
+   - **Content** - Your 2-3 sentence fact
+   - **Hashtags** - Check the boxes + add custom tags
+   - **QR Code URL** - Link to MSDE resource page
+   - **Image URL** - (Optional) Paste MSDE image URL for preview
+3. Click **Generate Post**
+4. Click the **Social Copy** tab
+5. Click **Copy to Clipboard**
+6. Paste directly into Twitter, Facebook, LinkedIn, or Instagram
+7. Done! No coding needed.
 
-| Element | Value |
-|---------|-------|
-| Primary Red | #BD0934 |
-| Primary Gold | #FFC838 |
-| Dark Blue | #1A4176 |
-| Light Blue | #3892D4 |
-| Purple | #725DA8 |
-| Font | Montserrat (Google Fonts) |
+### For Adding to This Toolkit (MSDE Staff)
 
-**Logo files found:** `msde-communication/BrandGuide-MSDE/logo/`
-- MSDE-Logo-FullColor.png
-- MSDE-Logo-KnockOut.png
-- MSDE-Logo-WhiteText.png
+If you want the post permanently added to the toolkit for others to share:
+
+**Step 1: Generate the post**
+- Complete the intake form
+- Click "Generate Post"
+
+**Step 2: Prepare assets**
+- Save the image to the `images/` folder as `[post-id].jpg`
+- Save the QR code (right-click on preview) as `images/qr-[post-id].png`
+
+**Step 3: Add HTML to index.html**
+- Copy from the "HTML" tab in the intake form
+- Open `index.html` in a text editor (or request from web team)
+- Paste the new `<article>` inside the posts-grid section
+
+**Step 4: Add JavaScript data**
+- Copy from the "JavaScript" tab
+- Add to the `const posts = {` section in index.html
+
+**Step 5: Update stats**
+- Increment the "Posts Ready" number in the stats bar
+
+**Step 6: Deploy**
+- Save and commit changes
+- New post is now available for everyone to share!
 
 ---
 
-### Step 4: HTML Demo Page Creation
+## For MSDE Communications Team
 
-**Output:** `docs/outreach/index.html`
-
-#### Technologies Used
-
-| Library | Purpose | CDN Source |
-|---------|---------|------------|
-| QRCode.js | QR code generation | cdnjs.cloudflare.com |
-| html2pdf.js | PDF export | cdnjs.cloudflare.com |
-| docx.js | Word document generation | unpkg.com |
-| FileSaver.js | File download handling | cdnjs.cloudflare.com |
-| Google Fonts | Montserrat typography | fonts.googleapis.com |
-
-#### Features Implemented
-
-1. **MSDE Branding**
-   - Official color palette (CSS custom properties)
-   - Montserrat font family
-   - Professional card-based layout
-
-2. **Per-Post Actions**
-   - Copy to clipboard (with toast notification)
-   - Download as PDF
-   - Download as DOCX
-   - Print individual post
-
-3. **QR Codes**
-   - Auto-generated on page load
-   - Links to official MSDE CTE page
-   - Customized colors matching MSDE brand
-
-4. **Responsive Design**
-   - Grid layout for post cards
-   - Mobile-friendly action buttons
-   - Print-optimized styles
-
-#### Code Structure
+### Recommended Workflow
 
 ```
-index.html
-├── <head>
-│   ├── Meta tags
-│   ├── Google Fonts (Montserrat)
-│   ├── External libraries (CDN)
-│   └── <style> (CSS with MSDE brand variables)
-├── <body>
-│   ├── Header (title + subtitle)
-│   ├── Posts Grid
-│   │   ├── Post 1: Caroline CTC
-│   │   ├── Post 2: Colonel Richardson HS
-│   │   ├── Post 3: Calvert County
-│   │   ├── Post 4: Harford County CTE
-│   │   └── Post 5: W4ester Did You Know
-│   └── Footer
-└── <script>
-    ├── generateQRCode()
-    ├── copyPost()
-    ├── downloadPDF()
-    ├── downloadDOCX()
-    └── printPost()
-```
-
----
-
-### Step 5: Security Consideration
-
-**Issue:** Initial `printPost()` function used legacy document writing methods which triggered security hook warning for potential XSS risk.
-
-**Solution:** Refactored to use sandboxed iframe approach with proper DOM methods, ensuring the print functionality is isolated and safe.
-
----
-
-## Files Created
-
-| File | Description |
-|------|-------------|
-| `docs/outreach/poster-cte-month.md` | Initial 2025 posts (markdown) |
-| `docs/outreach/cte-month-2026-posts.md` | Updated 2026 posts (markdown) |
-| `docs/outreach/index.html` | Interactive demo page |
-| `docs/outreach/README.md` | This documentation |
-
----
-
-## Post Guidelines (per MSDE)
-
-- **Length:** 2-3 sentences maximum
-- **Hashtags:** #CTEMonthMD #CareerReadyMD (primary)
-- **Images:** Required - use student photos, event flyers, or infographics
-- **Tone:** Celebratory, factual, student-focused
-- **Source:** All facts verified from MSDE Operations and Strategy communications
-
----
-
-## How to Use
-
-### View Demo
-```bash
-open docs/outreach/index.html
-```
-
-### For Social Media Team
-1. Open `index.html` in browser
-2. Click "Copy" on desired post
+1. Content Creator fills out Intake Form
+         ↓
+2. Generate Post → Copy "Social Copy"
+         ↓
 3. Paste into social media platform
-4. Add appropriate image from MSDE photo library
+         ↓
+4. Attach image (save from post or use MSDE photo library)
+         ↓
+5. Post to Twitter/Facebook/LinkedIn/Instagram
+```
 
-### For Print Materials
-1. Click "PDF" or "DOCX" button
-2. Open downloaded file
-3. Print or attach to email
+### To Add Posts to the Official Toolkit
 
-### For QR Code Usage
-1. Right-click QR code image
-2. Save image
-3. Include in printed materials or slides
+Option A: **Self-Service** (if comfortable with HTML)
+- Follow the "Adding to This Toolkit" steps above
 
----
-
-## Quality Assurance
-
-All posts verified against:
-- [x] MSDE Operations and Strategy source documents
-- [x] Real photographs from Maryland schools
-- [x] Official MSDE brand guide colors
-- [x] 2-3 sentence length requirement
-- [x] No hallucinated facts or statistics
-- [x] Proper hashtag format
+Option B: **Request Addition**
+- Fill out intake form
+- Copy all three outputs (Social Copy, HTML, JavaScript)
+- Email to web team with image attached
+- Request addition to the toolkit
 
 ---
 
-*Created: January 2026*
-*Author: w4ester & ai orchestration*
+## Content Guidelines
+
+### Writing "Did You Know?" Posts
+
+| Element | Guideline |
+|---------|-----------|
+| Length | 2-3 sentences maximum |
+| Opening | Start with a specific fact or number |
+| Closing | End with inspiration or call-to-action |
+| Punctuation | Use dashes (-) not em dashes (—) |
+| Tone | Celebratory, student-focused |
+
+### Required Hashtags
+
+Always include:
+- `#CTEMonthMD`
+- `#DidYouKnow`
+
+### Topic Hashtags
+
+| Topic | Hashtag |
+|-------|---------|
+| Career clusters | `#CareerReadyMD` |
+| Credentials | `#IndustryCredentials` |
+| Equity/Access | `#EducationalEquity` `#AccessForAll` |
+| College credits | `#DualEnrollment` `#EarlyCollege` |
+| Technology | `#DigitalTechnology` `#TechCareers` |
+| Healthcare | `#HealthcareCareers` |
+| Student orgs | `#CTSOs` `#StudentLeadership` |
+
+### Gradient Color Guide
+
+| Style | Color | Use For |
+|-------|-------|---------|
+| Default | Red→Blue | Primary CTE topics, general facts |
+| Gold | Gold→Mustard | Achievements, credentials, milestones |
+| Teal | Teal→Blue | Partnerships, organizations |
+| Blue | Blue gradient | Technical/professional, digital topics |
+
+---
+
+## What's in This Toolkit
+
+| File | Purpose |
+|------|---------|
+| `index.html` | Gallery of all posts with Copy/PDF/DOCX/Print buttons |
+| `intake.html` | Self-service form to create new posts |
+| `images/` | Post images and QR codes |
+| `README.md` | This documentation |
+
+### Current Content
+
+- **9 Posts** ready for sharing
+- Topics covered:
+  - Career Clusters & Programs
+  - Industry-Recognized Credentials
+  - Student Organizations (CTSOs)
+  - Healthcare Pathways
+  - College Credits / Dual Enrollment
+  - College & Career Readiness Standard
+  - Digital Technology Pathways
+  - CTE Access for All (MOA)
+  - 50,000+ Students Supported (MOA)
+
+---
+
+## Key MSDE Resources
+
+| Topic | URL |
+|-------|-----|
+| CTE Programs | marylandpublicschools.org/programs/Pages/CTE/CTEprograms.aspx |
+| Career Clusters | marylandpublicschools.org/programs/pages/cte/standards.aspx |
+| IRCs | marylandpublicschools.org/about/pages/approved-credentials.aspx |
+| CTSOs | marylandpublicschools.org/programs/pages/cte/ctso.aspx |
+| Dual Enrollment | marylandpublicschools.org/about/pages/dccr/postsecondary-dual-enrollment.aspx |
+| CCR Standard | marylandpublicschools.org/about/pages/dccr/meeting-ccr-standards.aspx |
+| MOA Program | marylandpublicschools.org/programs/Pages/CTE/CTE%20Accountability/moa-program.aspx |
+
+---
+
+## Data Sources
+
+All facts verified from:
+- MSDE CTE Database
+- Official MSDE website (marylandpublicschools.org)
+- MD CTE Data Dashboard (mdctedata.org)
+
+---
+
+*Created for Maryland CTE Month 2026*
+*MSDE Division of College and Career Pathways*
+*w4ester & ai orchestration*

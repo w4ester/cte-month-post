@@ -50,6 +50,69 @@
             color: #666;
         }
 
+        header .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--msde-red);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        header .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .workflow-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--msde-gold);
+        }
+
+        .workflow-box h3 {
+            margin: 0 0 1rem 0;
+            color: var(--msde-dark-gray);
+            font-size: 1.1rem;
+        }
+
+        .workflow-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .workflow-options { grid-template-columns: 1fr; }
+        }
+
+        .workflow-option {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .workflow-option strong {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--msde-dark-blue);
+        }
+
+        .workflow-option ol {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .workflow-option code {
+            background: #e9ecef;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -379,7 +442,35 @@
         <header>
             <h1>CTE Month "Did You Know?" Post Generator</h1>
             <p>Fill out the form to generate a branded social media post</p>
+            <a href="index.html" class="back-link">← View All Posts</a>
         </header>
+
+        <div class="workflow-box">
+            <h3>How to Use This Form</h3>
+            <div class="workflow-options">
+                <div class="workflow-option">
+                    <strong>Option 1: Share Directly to Social Media</strong>
+                    <ol>
+                        <li>Fill out the form below</li>
+                        <li>Click "Generate Post"</li>
+                        <li>Click the <strong>Social Copy</strong> tab</li>
+                        <li>Click "Copy to Clipboard"</li>
+                        <li>Open Twitter, Facebook, LinkedIn, or Instagram</li>
+                        <li>Paste and post! (Add image separately if needed)</li>
+                    </ol>
+                </div>
+                <div class="workflow-option">
+                    <strong>Option 2: Add to the Toolkit</strong>
+                    <ol>
+                        <li>Fill out the form and generate post</li>
+                        <li>Save your image to the <code>images/</code> folder</li>
+                        <li>Copy the <strong>HTML</strong> and <strong>JavaScript</strong> outputs</li>
+                        <li>Add to <code>index.html</code> (or email to web team)</li>
+                        <li>Post is now available for everyone to share!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
 
         <div class="main-grid">
             <!-- Intake Form -->
