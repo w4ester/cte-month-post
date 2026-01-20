@@ -218,9 +218,9 @@
         }
 
         .gradient-default { background: linear-gradient(135deg, var(--msde-red) 0%, var(--msde-dark-blue) 100%); }
-        .gradient-gold { background: linear-gradient(135deg, var(--msde-gold) 0%, var(--msde-mustard) 100%); color: var(--msde-dark-gray) !important; }
-        .gradient-teal { background: linear-gradient(135deg, var(--msde-teal) 0%, var(--msde-dark-blue) 100%); }
-        .gradient-blue { background: linear-gradient(135deg, var(--msde-dark-blue) 0%, #2a5a9e 100%); }
+        .gold-gradient { background: linear-gradient(135deg, var(--msde-gold) 0%, var(--msde-mustard) 100%); color: var(--msde-dark-gray) !important; }
+        .teal-gradient { background: linear-gradient(135deg, var(--msde-teal) 0%, var(--msde-dark-blue) 100%); }
+        .blue-gradient { background: linear-gradient(135deg, var(--msde-dark-blue) 0%, #2a5a9e 100%); }
 
         .btn {
             padding: 0.75rem 1.5rem;
@@ -550,6 +550,214 @@
             background: var(--msde-dark-blue);
             color: white;
         }
+
+        /* Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--msde-dark-blue) 0%, var(--msde-teal) 100%);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 65, 118, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(26, 65, 118, 0.5);
+        }
+
+        .chat-toggle svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            max-width: calc(100vw - 2rem);
+            height: 450px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-window.open {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--msde-dark-blue) 0%, var(--msde-teal) 100%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .chat-header small {
+            opacity: 0.8;
+            font-size: 0.75rem;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .chat-message.bot {
+            background: #f0f4ff;
+            color: var(--msde-dark-gray);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user {
+            background: var(--msde-dark-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.loading {
+            background: #f0f4ff;
+            color: #888;
+        }
+
+        .chat-message.loading::after {
+            content: '...';
+            animation: chatdots 1.5s infinite;
+        }
+
+        @keyframes chatdots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .chat-input-area {
+            padding: 0.75rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--msde-dark-blue);
+        }
+
+        .chat-send {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--msde-dark-blue);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .chat-send:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .chat-status {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #888;
+            padding: 0.25rem;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .quick-q {
+            background: #f0f4ff;
+            border: 1px solid var(--msde-dark-blue);
+            border-radius: 15px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-q:hover {
+            background: var(--msde-dark-blue);
+            color: white;
+        }
+
+        @media print {
+            .chat-widget { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -668,15 +876,15 @@
                         </div>
                         <div class="gradient-option">
                             <input type="radio" name="gradient" id="grad-gold" value="gold-gradient">
-                            <label for="grad-gold" class="gradient-gold">Gold</label>
+                            <label for="grad-gold" class="gold-gradient">Gold</label>
                         </div>
                         <div class="gradient-option">
                             <input type="radio" name="gradient" id="grad-teal" value="teal-gradient">
-                            <label for="grad-teal" class="gradient-teal">Teal</label>
+                            <label for="grad-teal" class="teal-gradient">Teal</label>
                         </div>
                         <div class="gradient-option">
                             <input type="radio" name="gradient" id="grad-blue" value="blue-gradient">
-                            <label for="grad-blue" class="gradient-blue">Blue</label>
+                            <label for="grad-blue" class="blue-gradient">Blue</label>
                         </div>
                     </div>
                     <small>Default: Primary topics | Gold: Achievements | Teal: Partnerships | Blue: Technical</small>
@@ -1135,6 +1343,193 @@ Maryland CTE Context:${contextFacts || '\n- Maryland has 14 Career Clusters with
             toast.classList.add('show');
             setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
+
+        // ==========================================
+        // Chat Widget - WebLLM Powered Helper
+        // ==========================================
+
+        let chatEngine = null;
+        let chatEngineLoading = false;
+        const CHAT_MODEL = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
+
+        // Site knowledge base for the chatbot
+        const siteKnowledge = `
+You are a helpful assistant for the Maryland CTE Month 2026 "Did You Know?" Social Media Toolkit.
+
+ABOUT THIS PAGE (Post Generator/Intake Form):
+- This page helps users CREATE new social media posts
+- Users can use AI Writing Assistant OR fill out the form manually
+- After generating, users can copy content for social media
+
+HOW TO USE THIS PAGE:
+1. Enter a topic in the AI Writing Assistant and click "Generate with AI"
+2. Or fill out the form manually: title, content, hashtags, URL
+3. Choose a gradient style (Default, Gold, Teal, or Blue)
+4. Click "Generate Post" to create outputs
+5. Use "Social Copy" tab for direct social media posting
+6. Use "HTML" and "JavaScript" tabs for adding to the toolkit
+
+GRADIENT STYLES:
+- Default (Red→Blue): General CTE topics
+- Gold: Achievements, credentials, milestones
+- Teal: Partnerships, organizations
+- Blue: Technical/digital topics
+
+MARYLAND CTE FACTS:
+- 14 Career Clusters with 48 Programs of Study
+- 211+ MSDE-approved Industry-Recognized Credentials
+- 4 CTSOs: SkillsUSA, FBLA, FFA, Educators Rising
+- Healthcare is the largest cluster with 10 programs
+- Students can earn college credits through dual enrollment
+
+Keep responses brief and helpful. Focus on how to use this form.`;
+
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('open');
+        }
+
+        function setChatStatus(message) {
+            document.getElementById('chat-status').textContent = message;
+        }
+
+        function addChatMessage(text, isUser) {
+            const messages = document.getElementById('chat-messages');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message ' + (isUser ? 'user' : 'bot');
+            msg.textContent = text;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+            return msg;
+        }
+
+        function askQuestion(question) {
+            document.getElementById('chat-input').value = question;
+            sendChat();
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const question = input.value.trim();
+            if (!question) return;
+
+            input.value = '';
+            addChatMessage(question, true);
+
+            const sendBtn = document.getElementById('chat-send');
+            sendBtn.disabled = true;
+
+            // Check for WebGPU
+            if (!navigator.gpu) {
+                // Use FAQ fallback
+                const answer = getFAQAnswer(question);
+                addChatMessage(answer, false);
+                sendBtn.disabled = false;
+                return;
+            }
+
+            // Add loading message
+            const loadingMsg = addChatMessage('Thinking', false);
+            loadingMsg.classList.add('loading');
+
+            try {
+                // Initialize engine if needed
+                if (!chatEngine && !chatEngineLoading) {
+                    chatEngineLoading = true;
+                    setChatStatus('Loading AI (first time only)...');
+
+                    chatEngine = await window.CreateMLCEngine(CHAT_MODEL, {
+                        initProgressCallback: (progress) => {
+                            const pct = Math.round(progress.progress * 100);
+                            setChatStatus('Loading: ' + pct + '%');
+                        }
+                    });
+                    chatEngineLoading = false;
+                    setChatStatus('');
+                }
+
+                const response = await chatEngine.chat.completions.create({
+                    messages: [
+                        { role: "system", content: siteKnowledge },
+                        { role: "user", content: question }
+                    ],
+                    max_tokens: 200,
+                    temperature: 0.7
+                });
+
+                loadingMsg.remove();
+                const answer = response.choices[0].message.content.trim();
+                addChatMessage(answer, false);
+
+            } catch (error) {
+                console.error('Chat error:', error);
+                loadingMsg.remove();
+                const answer = getFAQAnswer(question);
+                addChatMessage(answer, false);
+            }
+
+            sendBtn.disabled = false;
+            setChatStatus('');
+        }
+
+        // FAQ fallback when WebLLM isn't available
+        function getFAQAnswer(question) {
+            const q = question.toLowerCase();
+
+            if (q.includes('ai') || q.includes('generate') || q.includes('write')) {
+                return 'To use the AI Writing Assistant: Enter a topic (like "Healthcare Careers" or "Dual Enrollment") in the AI section at the top, then click "Generate with AI". It will fill in the title and content for you!';
+            }
+            if (q.includes('gradient') || q.includes('color') || q.includes('style')) {
+                return 'Choose a gradient style for your post header: Default (red→blue) for general topics, Gold for achievements, Teal for partnerships, or Blue for technical topics. Click the style you want before generating.';
+            }
+            if (q.includes('social') || q.includes('share') || q.includes('copy')) {
+                return 'After clicking "Generate Post", go to the "Social Copy" tab and click "Copy to Clipboard". Then paste directly into Twitter, Facebook, LinkedIn, or Instagram!';
+            }
+            if (q.includes('html') || q.includes('javascript') || q.includes('add to toolkit')) {
+                return 'To add your post to the toolkit permanently: Use the "HTML" and "JavaScript" tabs after generating. Copy both outputs and add them to index.html (or send to your web team).';
+            }
+            if (q.includes('hashtag')) {
+                return 'Always use #CTEMonthMD and #DidYouKnow (pre-checked). Add topic-specific tags like #CareerReadyMD, #IndustryCredentials, or type custom hashtags in the field.';
+            }
+            if (q.includes('qr') || q.includes('url') || q.includes('link')) {
+                return 'Enter an MSDE URL in the "QR Code Link" field. This creates a QR code in the post that links to more information. Use URLs from marylandpublicschools.org.';
+            }
+
+            return 'I can help you create posts! Try asking "How do I use the AI assistant?" or "What gradient should I choose?" or "How do I share my post?"';
+        }
     </script>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div>
+                    <h4>Post Creator Helper</h4>
+                    <small>Ask me how to use this form</small>
+                </div>
+                <button class="chat-close" onclick="toggleChat()">&times;</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                    Hi! I can help you create CTE Month posts. Ask me about using the AI assistant, choosing gradient styles, or sharing your posts!
+                </div>
+            </div>
+            <div class="quick-questions">
+                <button class="quick-q" onclick="askQuestion('How do I use the AI assistant?')">Use AI</button>
+                <button class="quick-q" onclick="askQuestion('What gradient should I choose?')">Gradients</button>
+                <button class="quick-q" onclick="askQuestion('How do I share my post?')">Share post</button>
+            </div>
+            <div class="chat-status" id="chat-status"></div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Ask a question..." onkeypress="if(event.key==='Enter')sendChat()">
+                <button class="chat-send" id="chat-send" onclick="sendChat()">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+        <button class="chat-toggle" onclick="toggleChat()" title="Chat with Post Creator Helper">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        </button>
+    </div>
 </body>
 </html>
