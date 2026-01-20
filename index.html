@@ -692,9 +692,39 @@
             setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
 
-        // Copy post to clipboard
-        function copyPost(postId) {
+        // Copy post to clipboard (with image as data URL for rich paste)
+        async function copyPost(postId) {
             const post = posts[postId];
+            const element = document.getElementById('post-' + postId);
+            const img = element.querySelector('.post-image img');
+
+            // Try to copy as rich content with image
+            if (img && img.src && navigator.clipboard.write) {
+                try {
+                    // Create HTML with embedded image
+                    const htmlContent = `<div style="font-family: sans-serif; max-width: 500px;">
+                        <img src="${img.src}" style="width: 100%; max-width: 500px; border-radius: 8px; margin-bottom: 1rem;" alt="${post.title}">
+                        <p><strong style="color: #BD0934;">Did you know?</strong> ${post.content.replace(/Did you know\?\s*/i, '').split('\n')[0]}</p>
+                        <p style="color: #BD0934; font-weight: 500;">${post.content.split('\n').pop()}</p>
+                    </div>`;
+
+                    const blob = new Blob([htmlContent], { type: 'text/html' });
+                    const textBlob = new Blob([post.content], { type: 'text/plain' });
+
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'text/html': blob,
+                            'text/plain': textBlob
+                        })
+                    ]);
+                    showToast('Post with image copied!');
+                    return;
+                } catch (e) {
+                    // Fall back to text-only
+                }
+            }
+
+            // Fallback: copy text only
             navigator.clipboard.writeText(post.content).then(function() {
                 showToast('Post copied to clipboard!');
             }).catch(function() {
@@ -778,10 +808,11 @@
             showToast('DOCX downloading...');
         }
 
-        // Print single post - uses new window for better compatibility
+        // Print single post with image - uses DOM methods for safety
         function printPost(postId) {
             const post = posts[postId];
-            const escapedContent = post.content.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+            const element = document.getElementById('post-' + postId);
+            const img = element.querySelector('.post-image img');
 
             const printWindow = window.open('', '_blank', 'width=800,height=600');
             if (!printWindow) {
@@ -789,37 +820,80 @@
                 return;
             }
 
-            printWindow.document.open();
-            printWindow.document.write(`<!DOCTYPE html>
-<html>
-<head>
-    <title>MSDE CTE - Did You Know - ${post.title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: Montserrat, Arial, sans-serif; padding: 2rem; line-height: 1.6; max-width: 700px; margin: 0 auto; }
-        h1 { color: #BD0934; margin-bottom: 0.25rem; font-size: 1.25rem; }
-        h2 { color: #454C5A; margin-bottom: 0.5rem; font-size: 1.5rem; }
-        .submitter { color: #1A4176; font-style: italic; margin-bottom: 1.5rem; }
-        .content { font-size: 1.1rem; }
-        .hashtags { color: #BD0934; font-weight: 500; margin-top: 1rem; }
-        .footer { margin-top: 2rem; font-size: 0.85rem; color: #666; border-top: 2px solid #FFC838; padding-top: 1rem; }
-        @media print { body { padding: 0; } }
-    </style>
-</head>
-<body>
-    <h1>Maryland State Department of Education</h1>
-    <h2>CTE Month 2026 - Did You Know?</h2>
-    <p class="submitter">${post.title}</p>
-    <div class="content">${escapedContent}</div>
-    <div class="footer">Learn more: ${post.url}<br>Source: MSDE CTE Database | ${new Date().toLocaleDateString()}</div>
-</body>
-</html>`);
-            printWindow.document.close();
+            const doc = printWindow.document;
 
-            // Wait for fonts to load then print
+            // Create style element
+            const style = doc.createElement('style');
+            style.textContent = `
+                body { font-family: Montserrat, Arial, sans-serif; padding: 2rem; line-height: 1.6; max-width: 700px; margin: 0 auto; }
+                h1 { color: #BD0934; margin-bottom: 0.25rem; font-size: 1.25rem; }
+                h2 { color: #454C5A; margin-bottom: 0.5rem; font-size: 1.5rem; }
+                .submitter { color: #1A4176; font-style: italic; margin-bottom: 1rem; }
+                .post-img { width: 100%; max-width: 500px; border-radius: 8px; margin-bottom: 1.5rem; display: block; }
+                .content { font-size: 1.1rem; }
+                .hashtags { color: #BD0934; font-weight: 500; margin-top: 1rem; }
+                .footer { margin-top: 2rem; font-size: 0.85rem; color: #666; border-top: 2px solid #FFC838; padding-top: 1rem; }
+                @media print { body { padding: 0; } .post-img { max-width: 400px; } }
+            `;
+
+            // Create font link
+            const fontLink = doc.createElement('link');
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap';
+            fontLink.rel = 'stylesheet';
+
+            // Build document structure
+            doc.head.appendChild(style);
+            doc.head.appendChild(fontLink);
+            doc.title = 'MSDE CTE - Did You Know - ' + post.title;
+
+            // Create body content
+            const h1 = doc.createElement('h1');
+            h1.textContent = 'Maryland State Department of Education';
+
+            const h2 = doc.createElement('h2');
+            h2.textContent = 'CTE Month 2026 - Did You Know?';
+
+            const submitter = doc.createElement('p');
+            submitter.className = 'submitter';
+            submitter.textContent = post.title;
+
+            doc.body.appendChild(h1);
+            doc.body.appendChild(h2);
+            doc.body.appendChild(submitter);
+
+            // Add image if available
+            if (img && img.src) {
+                const printImg = doc.createElement('img');
+                printImg.src = img.src;
+                printImg.alt = post.title;
+                printImg.className = 'post-img';
+                doc.body.appendChild(printImg);
+            }
+
+            // Add content
+            const content = doc.createElement('div');
+            content.className = 'content';
+            const lines = post.content.split('\n');
+            lines.forEach(function(line) {
+                const p = doc.createElement('p');
+                if (line.startsWith('#')) {
+                    p.className = 'hashtags';
+                }
+                p.textContent = line;
+                content.appendChild(p);
+            });
+            doc.body.appendChild(content);
+
+            // Add footer
+            const footer = doc.createElement('div');
+            footer.className = 'footer';
+            footer.textContent = 'Learn more: ' + post.url + ' | Source: MSDE CTE Database | ' + new Date().toLocaleDateString();
+            doc.body.appendChild(footer);
+
+            // Wait for fonts and image to load then print
             setTimeout(function() {
                 printWindow.print();
-            }, 500);
+            }, 800);
         }
     </script>
 </body>
