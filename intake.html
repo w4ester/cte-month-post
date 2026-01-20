@@ -815,6 +815,8 @@
                         <span class="ai-suggestion" onclick="setTopic('Healthcare Careers')">Healthcare</span>
                         <span class="ai-suggestion" onclick="setTopic('CTSOs')">CTSOs</span>
                         <span class="ai-suggestion" onclick="setTopic('Cybersecurity')">Cybersecurity</span>
+                        <span class="ai-suggestion" onclick="setTopic('MOA Equity')">MOA Equity</span>
+                        <span class="ai-suggestion" onclick="setTopic('Gifted and Talented')">Gifted & Talented</span>
                     </div>
                     <div class="ai-status" id="ai-status"></div>
                 </div>
@@ -978,7 +980,11 @@
             'healthcare': { programs: 10, fact: 'Healthcare & Human Services is Maryland\'s largest cluster with 10 Programs of Study' },
             'dual enrollment': { fact: 'Students can earn college credits before graduation through dual enrollment, articulated credit, and early college programs' },
             'cybersecurity': { fact: 'Cybersecurity is one of 4 Digital Technology Programs of Study preparing students for high-demand tech careers' },
-            'digital technology': { programs: 4, fact: '4 Programs: Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking' }
+            'digital technology': { programs: 4, fact: '4 Programs: Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking' },
+            'moa': { students: '50,000+', fact: 'MSDE Methods of Administration program ensures equitable access to CTE for all students, supporting over 50,000 students' },
+            'equity': { fact: 'MOA identifies and removes barriers related to race, gender, and disability to ensure all students can access high-quality CTE' },
+            'gifted': { fact: 'Gifted and Talented students can accelerate through CTE pathways, earning industry credentials and college credits while still in high school' },
+            'talented': { fact: 'Maryland CTE programs offer advanced pathways for high-achieving students to pursue challenging, career-focused education' }
         };
 
         // Generate content with AI (WebLLM or fallback)
@@ -1106,6 +1112,12 @@ Maryland CTE Context:${contextFacts || '\n- Maryland has 14 Career Clusters with
             } else if (topicLower.includes('cyber') || topicLower.includes('tech') || topicLower.includes('digital') || topicLower.includes('computer')) {
                 content = 'Maryland\'s Digital Technology cluster offers 4 Programs of Study - Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking. Students can earn industry credentials and prepare for high-demand tech careers while still in high school.';
                 title = 'Digital Technology Pathways';
+            } else if (topicLower.includes('moa') || topicLower.includes('equity') || topicLower.includes('access for all')) {
+                content = 'MSDE\'s Methods of Administration (MOA) program ensures high-quality Career and Technical Education is accessible to all Maryland students - identifying and removing barriers related to race, gender, and disability. Over 50,000 students have been supported through this vital equity initiative.';
+                title = 'CTE Access for All';
+            } else if (topicLower.includes('gifted') || topicLower.includes('talented') || topicLower.includes('advanced')) {
+                content = 'Gifted and Talented students thrive in Maryland CTE programs! Advanced learners can accelerate through career pathways, earning industry-recognized credentials and college credits while still in high school. CTE provides challenging, real-world learning for students ready to go further, faster.';
+                title = 'Gifted & Talented in CTE';
             } else {
                 // Generic template
                 content = `Maryland CTE programs offer students hands-on learning in ${topic}, preparing them for high-wage, high-skill careers. Students can earn industry credentials while still in high school, giving them a competitive edge in today's job market.`;
@@ -1150,6 +1162,8 @@ Maryland CTE Context:${contextFacts || '\n- Maryland has 14 Career Clusters with
             else if (topicLower.includes('tech') || topicLower.includes('digital')) customTag = '#DigitalTechnology #TechCareers';
             else if (topicLower.includes('dual') || topicLower.includes('college')) customTag = '#DualEnrollment #EarlyCollege';
             else if (topicLower.includes('ctso')) customTag = '#CTSOs #StudentLeadership';
+            else if (topicLower.includes('moa') || topicLower.includes('equity')) customTag = '#EducationalEquity #AccessForAll';
+            else if (topicLower.includes('gifted') || topicLower.includes('talented')) customTag = '#GiftedEducation #AdvancedLearning';
 
             document.getElementById('custom-hashtags').value = customTag;
         }
