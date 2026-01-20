@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- WebLLM for browser-based AI (runs locally, no API key needed) -->
+    <script type="module">
+        import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
+        window.CreateMLCEngine = CreateMLCEngine;
+    </script>
+
     <style>
         :root {
             --msde-red: #BD0934;
@@ -435,6 +441,115 @@
         .checkbox-item input {
             width: auto;
         }
+
+        /* AI Assist Section */
+        .ai-section {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            border: 2px solid var(--msde-dark-blue);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-section h3 {
+            color: var(--msde-dark-blue);
+            font-size: 1rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-section h3::before {
+            content: "✨";
+        }
+
+        .ai-input-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .ai-input-row input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, var(--msde-dark-blue) 0%, #2a5a9e 100%);
+            color: white;
+            white-space: nowrap;
+        }
+
+        .btn-ai:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 65, 118, 0.3);
+        }
+
+        .btn-ai:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .ai-status {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .ai-status.loading {
+            color: var(--msde-dark-blue);
+        }
+
+        .ai-status.error {
+            color: #c00;
+        }
+
+        .ai-status.success {
+            color: #080;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .ai-suggestion {
+            background: white;
+            border: 1px solid var(--msde-dark-blue);
+            border-radius: 20px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ai-suggestion:hover {
+            background: var(--msde-dark-blue);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -475,6 +590,27 @@
         <div class="main-grid">
             <!-- Intake Form -->
             <div class="form-section">
+                <!-- AI Writing Assistant -->
+                <div class="ai-section">
+                    <h3>AI Writing Assistant</h3>
+                    <p style="font-size: 0.85rem; margin-bottom: 0.75rem; color: #555;">Enter a topic and AI will generate "Did You Know?" content for you. Runs locally in your browser - no API key needed.</p>
+                    <div class="ai-input-row">
+                        <input type="text" id="ai-topic" placeholder="e.g., Healthcare Pathways, Dual Enrollment, CTSOs">
+                        <button class="btn btn-ai" id="ai-generate-btn" onclick="generateWithAI()">
+                            <span id="ai-btn-text">Generate with AI</span>
+                        </button>
+                    </div>
+                    <div class="ai-suggestions">
+                        <span class="ai-suggestion" onclick="setTopic('Career Clusters')">Career Clusters</span>
+                        <span class="ai-suggestion" onclick="setTopic('Industry Credentials')">Industry Credentials</span>
+                        <span class="ai-suggestion" onclick="setTopic('Dual Enrollment')">Dual Enrollment</span>
+                        <span class="ai-suggestion" onclick="setTopic('Healthcare Careers')">Healthcare</span>
+                        <span class="ai-suggestion" onclick="setTopic('CTSOs')">CTSOs</span>
+                        <span class="ai-suggestion" onclick="setTopic('Cybersecurity')">Cybersecurity</span>
+                    </div>
+                    <div class="ai-status" id="ai-status"></div>
+                </div>
+
                 <h2>Post Details</h2>
 
                 <div class="form-group">
@@ -608,6 +744,208 @@
             js: ''
         };
 
+        // WebLLM Engine state
+        let mlcEngine = null;
+        let engineLoading = false;
+        const MODEL_ID = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
+
+        // Set topic from suggestion buttons
+        function setTopic(topic) {
+            document.getElementById('ai-topic').value = topic;
+        }
+
+        // Update AI status display
+        function setAIStatus(message, type) {
+            const status = document.getElementById('ai-status');
+            status.textContent = message;
+            status.className = 'ai-status ' + (type || '');
+        }
+
+        // Maryland CTE facts database for augmenting AI responses
+        const cteFacts = {
+            'career clusters': { count: 14, programs: 48, fact: 'Maryland has 14 Career Clusters with 48 Programs of Study' },
+            'credentials': { count: '211+', fact: 'Over 211 MSDE-approved Industry-Recognized Credentials available' },
+            'ircs': { count: '211+', fact: 'Over 211 MSDE-approved Industry-Recognized Credentials available' },
+            'ctsos': { count: 4, orgs: 'SkillsUSA, FBLA, FFA, Educators Rising', fact: '4 Career & Technical Student Organizations connect students to competitions and leadership' },
+            'healthcare': { programs: 10, fact: 'Healthcare & Human Services is Maryland\'s largest cluster with 10 Programs of Study' },
+            'dual enrollment': { fact: 'Students can earn college credits before graduation through dual enrollment, articulated credit, and early college programs' },
+            'cybersecurity': { fact: 'Cybersecurity is one of 4 Digital Technology Programs of Study preparing students for high-demand tech careers' },
+            'digital technology': { programs: 4, fact: '4 Programs: Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking' }
+        };
+
+        // Generate content with AI (WebLLM or fallback)
+        async function generateWithAI() {
+            const topic = document.getElementById('ai-topic').value.trim();
+            if (!topic) {
+                showToast('Please enter a topic');
+                return;
+            }
+
+            const btn = document.getElementById('ai-generate-btn');
+            const btnText = document.getElementById('ai-btn-text');
+            btn.disabled = true;
+
+            // Check for WebGPU support
+            if (!navigator.gpu) {
+                setAIStatus('WebGPU not supported - using template mode', 'loading');
+                btnText.textContent = 'Generating...';
+
+                // Use template-based generation (fast fallback)
+                setTimeout(() => {
+                    generateFromTemplate(topic);
+                    btn.disabled = false;
+                    btnText.textContent = 'Generate with AI';
+                }, 500);
+                return;
+            }
+
+            try {
+                // Initialize engine if needed
+                if (!mlcEngine && !engineLoading) {
+                    engineLoading = true;
+                    setAIStatus('Loading AI model (first time only, ~100MB)...', 'loading');
+                    btnText.innerHTML = '<span class="loading-spinner"></span>Loading...';
+
+                    mlcEngine = await window.CreateMLCEngine(MODEL_ID, {
+                        initProgressCallback: (progress) => {
+                            const pct = Math.round(progress.progress * 100);
+                            setAIStatus(`Loading model: ${pct}%`, 'loading');
+                        }
+                    });
+                    engineLoading = false;
+                }
+
+                setAIStatus('Generating content...', 'loading');
+                btnText.innerHTML = '<span class="loading-spinner"></span>Writing...';
+
+                // Build context-aware prompt
+                const topicLower = topic.toLowerCase();
+                let contextFacts = '';
+                for (const [key, data] of Object.entries(cteFacts)) {
+                    if (topicLower.includes(key)) {
+                        contextFacts += `\nFact: ${data.fact}`;
+                        if (data.count) contextFacts += ` (${data.count} total)`;
+                    }
+                }
+
+                const systemPrompt = `You are a social media content writer for the Maryland State Department of Education (MSDE). Write "Did You Know?" posts about Career and Technical Education (CTE).
+
+Rules:
+- Start with a specific fact or number
+- Keep to 2-3 sentences maximum
+- Celebratory, student-focused tone
+- End with inspiration or call-to-action
+- Use simple language, avoid jargon
+- Focus on student benefits
+
+Maryland CTE Context:${contextFacts || '\n- Maryland has 14 Career Clusters with 48 Programs of Study\n- Over 211 MSDE-approved credentials available'}`;
+
+                const response = await mlcEngine.chat.completions.create({
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: `Write a "Did You Know?" social media post about: ${topic}. Just the content, no hashtags, 2-3 sentences.` }
+                    ],
+                    max_tokens: 150,
+                    temperature: 0.7
+                });
+
+                const content = response.choices[0].message.content.trim();
+
+                // Fill in the form
+                document.getElementById('title').value = topic;
+                document.getElementById('content').value = content.replace(/^Did you know\?\s*/i, '');
+                document.getElementById('post-id').value = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+                // Select appropriate hashtags based on topic
+                selectHashtagsForTopic(topic);
+
+                updatePreview();
+                setAIStatus('Content generated! Review and edit as needed.', 'success');
+                showToast('AI content generated!');
+
+            } catch (error) {
+                console.error('WebLLM error:', error);
+                setAIStatus('AI unavailable - using template mode', 'error');
+                generateFromTemplate(topic);
+            }
+
+            btn.disabled = false;
+            btnText.textContent = 'Generate with AI';
+        }
+
+        // Template-based fallback when WebLLM isn't available
+        function generateFromTemplate(topic) {
+            const topicLower = topic.toLowerCase();
+            let content = '';
+            let title = topic;
+
+            // Match topic to known facts
+            if (topicLower.includes('cluster') || topicLower.includes('program')) {
+                content = 'Maryland has 14 Career Clusters with 48 Programs of Study - and students can earn industry-recognized credentials while in high school through CTE programs across the state.';
+                title = 'Career Clusters & Programs';
+            } else if (topicLower.includes('credential') || topicLower.includes('irc')) {
+                content = 'Maryland CTE students can earn from over 200 MSDE-approved Industry-Recognized Credentials while still in high school - from Autodesk to AWS to Welding certifications. Career credentials + diploma = double win.';
+                title = 'Industry-Recognized Credentials';
+            } else if (topicLower.includes('ctso') || topicLower.includes('student org')) {
+                content = 'Maryland has 4 Career & Technical Student Organizations - SkillsUSA, FBLA, FFA, and Educators Rising - connecting students to state and national competitions, leadership development, and industry networks.';
+                title = 'Student Organizations (CTSOs)';
+            } else if (topicLower.includes('health')) {
+                content = 'Healthcare and Human Services is Maryland\'s largest CTE cluster with 10 Programs of Study - from CNA to Biomedical Science to Pharmacy Technician. The future of Maryland healthcare starts in high school.';
+                title = 'Healthcare Pathways';
+            } else if (topicLower.includes('dual') || topicLower.includes('college credit') || topicLower.includes('early college')) {
+                content = 'Maryland high school students can earn college credits before graduation through dual enrollment, articulated credit, and early college programs - getting a head start on their future while still in high school.';
+                title = 'Earn College Credits';
+            } else if (topicLower.includes('cyber') || topicLower.includes('tech') || topicLower.includes('digital') || topicLower.includes('computer')) {
+                content = 'Maryland\'s Digital Technology cluster offers 4 Programs of Study - Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking. Students can earn industry credentials and prepare for high-demand tech careers while still in high school.';
+                title = 'Digital Technology Pathways';
+            } else {
+                // Generic template
+                content = `Maryland CTE programs offer students hands-on learning in ${topic}, preparing them for high-wage, high-skill careers. Students can earn industry credentials while still in high school, giving them a competitive edge in today's job market.`;
+            }
+
+            // Fill form
+            document.getElementById('title').value = title;
+            document.getElementById('content').value = content;
+            document.getElementById('post-id').value = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+            selectHashtagsForTopic(topic);
+            updatePreview();
+
+            setAIStatus('Template content generated. Customize as needed!', 'success');
+            showToast('Content generated from template');
+        }
+
+        // Auto-select relevant hashtags based on topic
+        function selectHashtagsForTopic(topic) {
+            const topicLower = topic.toLowerCase();
+
+            // Reset optional hashtags
+            document.getElementById('hash-career').checked = false;
+            document.getElementById('hash-irc').checked = false;
+            document.getElementById('hash-equity').checked = false;
+
+            // Select based on topic
+            if (topicLower.includes('cluster') || topicLower.includes('career')) {
+                document.getElementById('hash-career').checked = true;
+            }
+            if (topicLower.includes('credential') || topicLower.includes('irc')) {
+                document.getElementById('hash-irc').checked = true;
+            }
+            if (topicLower.includes('equity') || topicLower.includes('access') || topicLower.includes('moa')) {
+                document.getElementById('hash-equity').checked = true;
+            }
+
+            // Add topic-specific custom hashtag
+            let customTag = '';
+            if (topicLower.includes('health')) customTag = '#HealthcareCareers';
+            else if (topicLower.includes('cyber')) customTag = '#Cybersecurity #TechCareers';
+            else if (topicLower.includes('tech') || topicLower.includes('digital')) customTag = '#DigitalTechnology #TechCareers';
+            else if (topicLower.includes('dual') || topicLower.includes('college')) customTag = '#DualEnrollment #EarlyCollege';
+            else if (topicLower.includes('ctso')) customTag = '#CTSOs #StudentLeadership';
+
+            document.getElementById('custom-hashtags').value = customTag;
+        }
+
         // Live preview updates
         document.getElementById('title').addEventListener('input', updatePreview);
         document.getElementById('content').addEventListener('input', updatePreview);
@@ -735,7 +1073,8 @@
                 '            <div class="qr-info">Scan for more:<br>' + safeTitle.substring(0, 25) + '</div>\n' +
                 '        </div>\n' +
                 '        <div class="action-buttons">\n' +
-                '            <button class="btn btn-primary" onclick="copyPost(\'' + postId + '\')">Copy</button>\n' +
+                '            <button class="btn btn-primary" onclick="sharePost(\'' + postId + '\')">Share</button>\n' +
+                '            <button class="btn btn-teal" onclick="downloadImage(\'' + postId + '\')">Image</button>\n' +
                 '            <button class="btn btn-secondary" onclick="downloadPDF(\'' + postId + '\')">PDF</button>\n' +
                 '            <button class="btn btn-secondary" onclick="downloadDOCX(\'' + postId + '\')">DOCX</button>\n' +
                 '            <button class="btn btn-gold" onclick="printPost(\'' + postId + '\')">Print</button>\n' +

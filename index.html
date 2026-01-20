@@ -304,6 +304,17 @@
             box-shadow: 0 2px 8px rgba(255, 199, 44, 0.4);
         }
 
+        .btn-teal {
+            background: var(--msde-teal);
+            color: white;
+        }
+
+        .btn-teal:hover {
+            background: #4a8a83;
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(91, 164, 156, 0.4);
+        }
+
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -468,7 +479,8 @@
                     <div class="qr-info">Scan for more:<br>MD CTE Career Clusters</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('clusters')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('clusters')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('clusters')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('clusters')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('clusters')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('clusters')">Print</button>
@@ -496,7 +508,8 @@
                     <div class="qr-info">Scan for more:<br>MSDE-Approved IRCs</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('ircs')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('ircs')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('ircs')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('ircs')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('ircs')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('ircs')">Print</button>
@@ -524,7 +537,8 @@
                     <div class="qr-info">Scan for more:<br>MD CTSOs</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('ctsos')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('ctsos')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('ctsos')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('ctsos')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('ctsos')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('ctsos')">Print</button>
@@ -552,7 +566,8 @@
                     <div class="qr-info">Scan for more:<br>Healthcare Pathways</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('healthcare')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('healthcare')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('healthcare')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('healthcare')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('healthcare')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('healthcare')">Print</button>
@@ -580,7 +595,8 @@
                     <div class="qr-info">Scan for more:<br>Dual Enrollment</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('postsecondary')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('postsecondary')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('postsecondary')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('postsecondary')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('postsecondary')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('postsecondary')">Print</button>
@@ -608,7 +624,8 @@
                     <div class="qr-info">Scan for more:<br>CCR Standard</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('ccr')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('ccr')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('ccr')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('ccr')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('ccr')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('ccr')">Print</button>
@@ -636,7 +653,8 @@
                     <div class="qr-info">Scan for more:<br>Digital Technology CTE</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('cs')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('cs')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('cs')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('cs')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('cs')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('cs')">Print</button>
@@ -663,7 +681,8 @@
                     <div class="qr-info">Scan for more:<br>MOA Program</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('moa-equity')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('moa-equity')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('moa-equity')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('moa-equity')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('moa-equity')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('moa-equity')">Print</button>
@@ -690,7 +709,8 @@
                     <div class="qr-info">Scan for more:<br>MOA Monitoring</div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="copyPost('moa-impact')">Copy</button>
+                    <button class="btn btn-primary" onclick="sharePost('moa-impact')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('moa-impact')">Image</button>
                     <button class="btn btn-secondary" onclick="downloadPDF('moa-impact')">PDF</button>
                     <button class="btn btn-secondary" onclick="downloadDOCX('moa-impact')">DOCX</button>
                     <button class="btn btn-gold" onclick="printPost('moa-impact')">Print</button>
@@ -778,6 +798,77 @@
             toast.textContent = message;
             toast.classList.add('show');
             setTimeout(function() { toast.classList.remove('show'); }, 3000);
+        }
+
+        // Download post image
+        async function downloadImage(postId) {
+            const post = posts[postId];
+            const element = document.getElementById('post-' + postId);
+            const img = element.querySelector('.post-image img');
+
+            if (!img || !img.src) {
+                showToast('No image available');
+                return;
+            }
+
+            try {
+                // Fetch image and convert to blob
+                const response = await fetch(img.src);
+                const blob = await response.blob();
+                const filename = 'MSDE-CTE-' + post.title.replace(/[^a-z0-9]/gi, '-') + '.jpg';
+                saveAs(blob, filename);
+                showToast('Image downloading...');
+            } catch (e) {
+                // Fallback: open in new tab
+                window.open(img.src, '_blank');
+                showToast('Image opened in new tab');
+            }
+        }
+
+        // Share post using Web Share API (with image) or fallback to copy
+        async function sharePost(postId) {
+            const post = posts[postId];
+            const element = document.getElementById('post-' + postId);
+            const img = element.querySelector('.post-image img');
+
+            // Check if Web Share API with files is supported
+            if (navigator.share && navigator.canShare) {
+                try {
+                    let shareData = {
+                        title: 'CTE Month 2026 - ' + post.title,
+                        text: post.content,
+                        url: post.url
+                    };
+
+                    // Try to include image file
+                    if (img && img.src) {
+                        try {
+                            const response = await fetch(img.src);
+                            const blob = await response.blob();
+                            const file = new File([blob], post.title.replace(/[^a-z0-9]/gi, '-') + '.jpg', { type: 'image/jpeg' });
+
+                            if (navigator.canShare({ files: [file] })) {
+                                shareData.files = [file];
+                            }
+                        } catch (e) {
+                            // Continue without image
+                        }
+                    }
+
+                    await navigator.share(shareData);
+                    showToast('Shared successfully!');
+                    return;
+                } catch (e) {
+                    if (e.name !== 'AbortError') {
+                        // User didn't cancel, try copy fallback
+                        copyPost(postId);
+                    }
+                    return;
+                }
+            }
+
+            // Fallback to copy
+            copyPost(postId);
         }
 
         // Copy post to clipboard (with image as data URL for rich paste)
