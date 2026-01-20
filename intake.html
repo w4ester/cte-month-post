@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTE Month Post Generator - Intake Form</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --msde-red: #BD0934;
+            --msde-gold: #FFC838;
+            --msde-dark-blue: #1A4176;
+            --msde-teal: #5BA49C;
+            --msde-orange: #DF5F46;
+            --msde-mustard: #E19C37;
+            --msde-dark-gray: #454C5A;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--msde-dark-gray);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--msde-dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: #666;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-section, .preview-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .form-section h2, .preview-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--msde-red);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--msde-red);
+            box-shadow: 0 0 0 3px rgba(189, 9, 52, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            color: #888;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .gradient-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .gradient-option {
+            position: relative;
+        }
+
+        .gradient-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .gradient-option label {
+            display: block;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-option input:checked + label {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px var(--msde-dark-gray);
+        }
+
+        .gradient-default { background: linear-gradient(135deg, var(--msde-red) 0%, var(--msde-dark-blue) 100%); }
+        .gradient-gold { background: linear-gradient(135deg, var(--msde-gold) 0%, var(--msde-mustard) 100%); color: var(--msde-dark-gray) !important; }
+        .gradient-teal { background: linear-gradient(135deg, var(--msde-teal) 0%, var(--msde-dark-blue) 100%); }
+        .gradient-blue { background: linear-gradient(135deg, var(--msde-dark-blue) 0%, #2a5a9e 100%); }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--msde-red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #a00828;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: var(--msde-dark-gray);
+        }
+
+        .btn-secondary:hover {
+            background: #ddd;
+        }
+
+        .btn-gold {
+            background: var(--msde-gold);
+            color: var(--msde-dark-gray);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Preview Card Styles */
+        .preview-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .preview-header {
+            padding: 1rem 1.25rem;
+            color: white;
+        }
+
+        .preview-header .category {
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .preview-header .platform {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        .preview-image {
+            height: 180px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-image .placeholder {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .preview-content {
+            padding: 1.25rem;
+        }
+
+        .preview-content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .preview-content .hashtags {
+            color: var(--msde-red);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .preview-footer {
+            padding: 1rem 1.25rem;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .qr-info {
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        /* Output Section */
+        .output-section {
+            margin-top: 2rem;
+        }
+
+        .output-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--msde-dark-gray);
+        }
+
+        .output-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .output-tab {
+            padding: 0.5rem 1rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        .output-tab.active {
+            background: var(--msde-red);
+            color: white;
+        }
+
+        .output-content {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            margin-top: 0.5rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--msde-dark-gray);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CTE Month "Did You Know?" Post Generator</h1>
+            <p>Fill out the form to generate a branded social media post</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Intake Form -->
+            <div class="form-section">
+                <h2>Post Details</h2>
+
+                <div class="form-group">
+                    <label for="title">Post Title</label>
+                    <input type="text" id="title" placeholder="e.g., Career Clusters & Programs">
+                    <small>Short, descriptive title for the post header</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Did You Know Content</label>
+                    <textarea id="content" placeholder="Maryland has 14 Career Clusters with 48 Programs of Study..."></textarea>
+                    <small>2-3 sentences max. Start with a fact, end with inspiration.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Hashtags</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="hash-cte" checked> #CTEMonthMD
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="hash-dyk" checked> #DidYouKnow
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="hash-career"> #CareerReadyMD
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="hash-irc"> #IndustryCredentials
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="hash-equity"> #EducationalEquity
+                        </label>
+                    </div>
+                    <input type="text" id="custom-hashtags" placeholder="Additional hashtags (e.g., #TechCareers)" style="margin-top: 0.5rem;">
+                </div>
+
+                <div class="form-group">
+                    <label for="url">QR Code Link (MSDE URL)</label>
+                    <input type="url" id="url" placeholder="https://marylandpublicschools.org/programs/...">
+                    <small>Link to MSDE resource page for the QR code</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="image-url">Image URL (optional)</label>
+                    <input type="url" id="image-url" placeholder="https://marylandpublicschools.org/about/PublishingImages/...">
+                    <small>Leave blank to use placeholder - or paste MSDE image URL</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Header Gradient Style</label>
+                    <div class="gradient-options">
+                        <div class="gradient-option">
+                            <input type="radio" name="gradient" id="grad-default" value="" checked>
+                            <label for="grad-default" class="gradient-default">Default</label>
+                        </div>
+                        <div class="gradient-option">
+                            <input type="radio" name="gradient" id="grad-gold" value="gold-gradient">
+                            <label for="grad-gold" class="gradient-gold">Gold</label>
+                        </div>
+                        <div class="gradient-option">
+                            <input type="radio" name="gradient" id="grad-teal" value="teal-gradient">
+                            <label for="grad-teal" class="gradient-teal">Teal</label>
+                        </div>
+                        <div class="gradient-option">
+                            <input type="radio" name="gradient" id="grad-blue" value="blue-gradient">
+                            <label for="grad-blue" class="gradient-blue">Blue</label>
+                        </div>
+                    </div>
+                    <small>Default: Primary topics | Gold: Achievements | Teal: Partnerships | Blue: Technical</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-id">Post ID</label>
+                    <input type="text" id="post-id" placeholder="e.g., clusters, moa-equity">
+                    <small>Lowercase, hyphenated identifier for the post</small>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn btn-primary" onclick="generatePost()">Generate Post</button>
+                    <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2>Preview</h2>
+
+                <div class="preview-card" id="preview-card">
+                    <div class="preview-header gradient-default" id="preview-header">
+                        <span class="category">Did You Know?</span>
+                        <h3 id="preview-title">Your Post Title</h3>
+                        <div class="platform">All Platforms</div>
+                    </div>
+                    <div class="preview-image" id="preview-image">
+                        <span class="placeholder" id="image-placeholder">Image Preview</span>
+                        <img id="preview-img" style="display:none" alt="">
+                    </div>
+                    <div class="preview-content">
+                        <p><strong>Did you know?</strong> <span id="preview-content">Your content will appear here...</span></p>
+                        <p class="hashtags" id="preview-hashtags">#CTEMonthMD #DidYouKnow</p>
+                    </div>
+                    <div class="preview-footer">
+                        <div class="qr-section">
+                            <img class="qr-code" id="preview-qr" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23eee' width='60' height='60'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23999' font-size='10'%3EQR%3C/text%3E%3C/svg%3E" alt="QR Code">
+                            <div class="qr-info">Scan for more:<br><span id="preview-qr-topic">Topic</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="output-section">
+                    <h3>Generated Output</h3>
+                    <div class="output-tabs">
+                        <button class="output-tab active" onclick="showOutput('social')">Social Copy</button>
+                        <button class="output-tab" onclick="showOutput('html')">HTML</button>
+                        <button class="output-tab" onclick="showOutput('js')">JavaScript</button>
+                    </div>
+                    <div class="output-content" id="output-content">Fill out the form and click "Generate Post" to see output...</div>
+                    <button class="btn btn-secondary copy-btn" onclick="copyOutput()">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentOutput = 'social';
+        let generatedOutputs = {
+            social: '',
+            html: '',
+            js: ''
+        };
+
+        // Live preview updates
+        document.getElementById('title').addEventListener('input', updatePreview);
+        document.getElementById('content').addEventListener('input', updatePreview);
+        document.getElementById('url').addEventListener('input', updatePreview);
+        document.getElementById('image-url').addEventListener('input', updatePreview);
+        document.getElementById('custom-hashtags').addEventListener('input', updatePreview);
+        document.querySelectorAll('input[name="gradient"]').forEach(function(r) { r.addEventListener('change', updatePreview); });
+        document.querySelectorAll('.checkbox-group input').forEach(function(c) { c.addEventListener('change', updatePreview); });
+
+        function updatePreview() {
+            var title = document.getElementById('title').value || 'Your Post Title';
+            var content = document.getElementById('content').value || 'Your content will appear here...';
+            var imageUrl = document.getElementById('image-url').value;
+            var gradient = document.querySelector('input[name="gradient"]:checked').value;
+
+            // Update title
+            document.getElementById('preview-title').textContent = title;
+
+            // Update content
+            document.getElementById('preview-content').textContent = content;
+
+            // Update header gradient
+            var header = document.getElementById('preview-header');
+            header.className = 'preview-header ' + (gradient || 'gradient-default');
+
+            // Update image using safe DOM methods
+            var previewImg = document.getElementById('preview-img');
+            var placeholder = document.getElementById('image-placeholder');
+            if (imageUrl) {
+                previewImg.src = imageUrl;
+                previewImg.alt = title;
+                previewImg.style.display = 'block';
+                previewImg.onerror = function() {
+                    this.style.display = 'none';
+                    placeholder.style.display = 'block';
+                    placeholder.textContent = 'Image not found';
+                };
+                previewImg.onload = function() {
+                    placeholder.style.display = 'none';
+                };
+                placeholder.style.display = 'none';
+            } else {
+                previewImg.style.display = 'none';
+                placeholder.style.display = 'block';
+                placeholder.textContent = 'Image Preview';
+            }
+
+            // Update hashtags
+            document.getElementById('preview-hashtags').textContent = getHashtags();
+
+            // Update QR topic
+            document.getElementById('preview-qr-topic').textContent = title.substring(0, 20) + (title.length > 20 ? '...' : '');
+        }
+
+        function getHashtags() {
+            var tags = [];
+            if (document.getElementById('hash-cte').checked) tags.push('#CTEMonthMD');
+            if (document.getElementById('hash-dyk').checked) tags.push('#DidYouKnow');
+            if (document.getElementById('hash-career').checked) tags.push('#CareerReadyMD');
+            if (document.getElementById('hash-irc').checked) tags.push('#IndustryCredentials');
+            if (document.getElementById('hash-equity').checked) tags.push('#EducationalEquity');
+
+            var custom = document.getElementById('custom-hashtags').value.trim();
+            if (custom) {
+                custom.split(/\s+/).forEach(function(t) {
+                    if (t.startsWith('#')) tags.push(t);
+                    else if (t) tags.push('#' + t);
+                });
+            }
+
+            return tags.join(' ');
+        }
+
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.textContent;
+        }
+
+        function generatePost() {
+            var title = document.getElementById('title').value;
+            var content = document.getElementById('content').value;
+            var url = document.getElementById('url').value;
+            var imageUrl = document.getElementById('image-url').value;
+            var gradient = document.querySelector('input[name="gradient"]:checked').value;
+            var postId = document.getElementById('post-id').value || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            var hashtags = getHashtags();
+
+            if (!title || !content) {
+                showToast('Please fill in title and content');
+                return;
+            }
+
+            // Generate QR code
+            if (url) {
+                var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
+                document.getElementById('preview-qr').src = qrUrl;
+            }
+
+            // Escape content for safety
+            var safeTitle = escapeHtml(title);
+            var safeContent = escapeHtml(content);
+
+            // Generate social copy
+            generatedOutputs.social = 'Did you know? ' + content + '\n\n' + hashtags;
+
+            // Generate HTML
+            var gradientClass = gradient ? ' ' + gradient : '';
+            generatedOutputs.html = '<article class="post-card" id="post-' + postId + '">\n' +
+                '    <div class="post-header' + gradientClass + '">\n' +
+                '        <span class="category">Did You Know?</span>\n' +
+                '        <h2>' + safeTitle + '</h2>\n' +
+                '        <div class="platform">All Platforms</div>\n' +
+                '    </div>\n' +
+                '    <div class="post-image">\n' +
+                '        <img src="images/' + postId + '.jpg" alt="' + safeTitle + '" onerror="this.style.display=\'none\'">\n' +
+                '    </div>\n' +
+                '    <div class="post-content" id="content-' + postId + '">\n' +
+                '        <p><strong>Did you know?</strong> ' + safeContent + '</p>\n' +
+                '        <p class="hashtags">' + hashtags + '</p>\n' +
+                '    </div>\n' +
+                '    <div class="post-footer">\n' +
+                '        <div class="qr-section">\n' +
+                '            <img class="qr-code" src="images/qr-' + postId + '.png" alt="QR Code">\n' +
+                '            <div class="qr-info">Scan for more:<br>' + safeTitle.substring(0, 25) + '</div>\n' +
+                '        </div>\n' +
+                '        <div class="action-buttons">\n' +
+                '            <button class="btn btn-primary" onclick="copyPost(\'' + postId + '\')">Copy</button>\n' +
+                '            <button class="btn btn-secondary" onclick="downloadPDF(\'' + postId + '\')">PDF</button>\n' +
+                '            <button class="btn btn-secondary" onclick="downloadDOCX(\'' + postId + '\')">DOCX</button>\n' +
+                '            <button class="btn btn-gold" onclick="printPost(\'' + postId + '\')">Print</button>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</article>';
+
+            // Generate JavaScript
+            generatedOutputs.js = "'" + postId + "': {\n" +
+                '    title: "' + safeTitle + '",\n' +
+                '    url: "' + url + '",\n' +
+                '    content: `Did you know? ' + safeContent + '\n\n' + hashtags + '`\n' +
+                '}';
+
+            // Show social output by default
+            showOutput('social');
+            showToast('Post generated!');
+        }
+
+        function showOutput(type) {
+            currentOutput = type;
+            document.querySelectorAll('.output-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelector('.output-tab[onclick="showOutput(\'' + type + '\')"]').classList.add('active');
+            document.getElementById('output-content').textContent = generatedOutputs[type] || 'Generate a post first...';
+        }
+
+        function copyOutput() {
+            var output = generatedOutputs[currentOutput];
+            if (output) {
+                navigator.clipboard.writeText(output).then(function() {
+                    showToast('Copied to clipboard!');
+                });
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('title').value = '';
+            document.getElementById('content').value = '';
+            document.getElementById('url').value = '';
+            document.getElementById('image-url').value = '';
+            document.getElementById('custom-hashtags').value = '';
+            document.getElementById('post-id').value = '';
+            document.getElementById('grad-default').checked = true;
+            document.getElementById('hash-cte').checked = true;
+            document.getElementById('hash-dyk').checked = true;
+            document.getElementById('hash-career').checked = false;
+            document.getElementById('hash-irc').checked = false;
+            document.getElementById('hash-equity').checked = false;
+            updatePreview();
+            generatedOutputs = { social: '', html: '', js: '' };
+            document.getElementById('output-content').textContent = 'Fill out the form and click "Generate Post" to see output...';
+            document.getElementById('preview-qr').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23eee' width='60' height='60'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='%23999' font-size='10'%3EQR%3C/text%3E%3C/svg%3E";
+        }
+
+        function showToast(message) {
+            var toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 3000);
+        }
+    </script>
+</body>
+</html>
