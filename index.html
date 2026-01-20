@@ -940,19 +940,25 @@
             <div class="chat-header">
                 <div>
                     <h4>CTE Month Helper</h4>
-                    <small>Ask me about this toolkit</small>
+                    <small>index.html - Posts Gallery</small>
                 </div>
                 <button class="chat-close" onclick="toggleChat()">&times;</button>
             </div>
             <div class="chat-messages" id="chat-messages">
                 <div class="chat-message bot">
-                    Hi! I'm here to help you use this CTE Month toolkit. You can ask me how to share posts, create new content, or learn about Maryland CTE programs.
+                    <strong>Welcome to the CTE Month Toolkit!</strong><br><br>
+                    <strong>Quick start:</strong><br>
+                    1. Find a post you like below<br>
+                    2. Click "Share" to copy text<br>
+                    3. Click "Image" to download pic<br>
+                    4. Paste both to social media!<br><br>
+                    9 posts ready to share. Ask me anything!
                 </div>
             </div>
             <div class="quick-questions">
-                <button class="quick-q" onclick="askQuestion('How do I share a post?')">How to share?</button>
-                <button class="quick-q" onclick="askQuestion('How do I create a new post?')">Create post</button>
-                <button class="quick-q" onclick="askQuestion('What is CTE Month?')">What is CTE?</button>
+                <button class="quick-q" onclick="askQuestion('Walk me through sharing a post')">How to share</button>
+                <button class="quick-q" onclick="askQuestion('What posts are available?')">See all posts</button>
+                <button class="quick-q" onclick="askQuestion('How do I create my own post?')">Create new</button>
             </div>
             <div class="chat-status" id="chat-status"></div>
             <div class="chat-input-area">
@@ -1326,40 +1332,50 @@
         let chatEngineLoading = false;
         const CHAT_MODEL = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
 
-        // Site knowledge base for the chatbot
+        // Get current page context
+        const currentPage = window.location.pathname;
+        const isIndexPage = currentPage.endsWith('index.html') || currentPage.endsWith('/');
+
+        // Site knowledge base for the chatbot - CONTEXT AWARE
         const siteKnowledge = `
-You are a helpful assistant for the Maryland CTE Month 2026 "Did You Know?" Social Media Toolkit.
+You are a friendly CTE Month helper for the Maryland "Did You Know?" Social Media Toolkit.
 
-ABOUT THIS SITE:
-- This is a toolkit for sharing CTE (Career and Technical Education) facts on social media
-- Created by MSDE (Maryland State Department of Education)
-- Contains 9 ready-to-share posts about Maryland CTE programs
-- CTE Month is February 2026
+CURRENT PAGE: Posts Gallery (index.html)
+The user is on the MAIN GALLERY PAGE with 9 ready-to-share CTE Month posts.
 
-HOW TO SHARE POSTS (No coding needed):
-1. Find a post you want to share on this page
-2. Click the "Share" button - on mobile it opens the share sheet with the image
-3. On desktop, it copies the text to clipboard
-4. Click "Image" to download the post image
-5. Paste into Twitter, Facebook, LinkedIn, or Instagram
-6. Attach the downloaded image if needed
+WHAT'S ON THIS PAGE:
+- 9 "Did You Know?" post cards about Maryland CTE
+- Each card has: Share, Image, PDF, DOCX, and Print buttons
+- Stats bar showing: 9 Posts, 14 Career Clusters, 48 Programs, 211 IRCs
+- "+ Create New Post" button at top goes to the Post Creator
 
-HOW TO CREATE NEW POSTS:
-1. Click "+ Create New Post" button at the top
-2. Use the AI Writing Assistant - enter a topic and it generates content
-3. Or fill out the form manually
-4. Click "Generate Post"
-5. Copy from the "Social Copy" tab
-6. Paste to your social media
+QUICK WORKFLOW - SHARING A POST:
+1. Scroll and find a post you like
+2. Click "Share" button - opens share sheet on mobile, copies text on desktop
+3. Click "Image" to download the picture
+4. Paste into Twitter, Facebook, LinkedIn, or Instagram
+5. Attach the image if it didn't paste automatically
 
-MARYLAND CTE FACTS:
-- 14 Career Clusters with 48 Programs of Study
-- 211+ MSDE-approved Industry-Recognized Credentials
-- 4 CTSOs: SkillsUSA, FBLA, FFA, Educators Rising
-- Healthcare is the largest cluster with 10 programs
-- Students can earn college credits through dual enrollment
+THE 9 POSTS AVAILABLE:
+1. Career Clusters & Programs (14 clusters, 48 programs)
+2. Industry-Recognized Credentials (211+ credentials)
+3. Student Organizations - CTSOs (SkillsUSA, FBLA, FFA, Educators Rising)
+4. Healthcare Pathways (largest cluster, 10 programs)
+5. Earn College Credits (dual enrollment)
+6. College & Career Readiness (new CCR standard)
+7. Digital Technology Pathways (4 tech programs)
+8. CTE Access for All (MOA equity program)
+9. 50,000+ Students Supported (MOA impact)
 
-Keep responses brief and helpful. Focus on how to use this toolkit.`;
+OTHER OPTIONS:
+- "PDF" = download as PDF document
+- "DOCX" = download as Word document
+- "Print" = print-friendly version for events
+
+TO CREATE A NEW POST:
+Click "+ Create New Post" at the top to go to the Post Creator page.
+
+Keep responses SHORT (2-3 sentences max). Be encouraging!`;
 
         function toggleChat() {
             const chatWindow = document.getElementById('chat-window');
@@ -1453,26 +1469,29 @@ Keep responses brief and helpful. Focus on how to use this toolkit.`;
         function getFAQAnswer(question) {
             const q = question.toLowerCase();
 
-            if (q.includes('share') || q.includes('post to')) {
-                return 'To share a post: Click the "Share" button on any post. On mobile, it opens your share sheet with the image. On desktop, it copies the text - then click "Image" to download the picture, and paste both into your social media.';
+            if (q.includes('share') || q.includes('post to') || q.includes('walk me through')) {
+                return 'To share a post: 1) Find a post you like, 2) Click "Share" - on mobile it opens share sheet, on desktop copies text, 3) Click "Image" to download the picture, 4) Paste both into Twitter, Facebook, LinkedIn, or Instagram!';
             }
-            if (q.includes('create') || q.includes('new post') || q.includes('make a post')) {
-                return 'To create a new post: Click "+ Create New Post" at the top. You can use the AI Writing Assistant by entering a topic, or fill out the form manually. Then click "Generate Post" and copy from the "Social Copy" tab.';
+            if (q.includes('what posts') || q.includes('available') || q.includes('see all')) {
+                return 'We have 9 posts ready: Career Clusters, Industry Credentials, CTSOs (student orgs), Healthcare Pathways, College Credits, CCR Standard, Digital Technology, CTE Access for All, and 50,000+ Students Supported. Scroll down to see them all!';
+            }
+            if (q.includes('create') || q.includes('new post') || q.includes('make a post') || q.includes('my own')) {
+                return 'Click "+ Create New Post" at the top! On that page, enter a topic in the AI box, click "Generate with AI", then "Generate Post", and copy from the "Social Copy" tab.';
             }
             if (q.includes('cte month') || q.includes('what is cte')) {
-                return 'CTE Month is February! It celebrates Career and Technical Education in Maryland. This toolkit helps you share "Did You Know?" facts about Maryland\'s 14 Career Clusters, 48 Programs of Study, and 211+ industry credentials available to students.';
+                return 'CTE Month is February! It celebrates Career and Technical Education in Maryland - 14 Career Clusters, 48 Programs of Study, and 211+ industry credentials. This toolkit makes it easy to share CTE facts on social media!';
             }
             if (q.includes('download') || q.includes('image')) {
-                return 'Click the "Image" button on any post to download the picture. You can also download posts as PDF or DOCX using those buttons.';
+                return 'Click "Image" on any post to download the picture. You can also get "PDF" for documents or "DOCX" for Word files.';
             }
             if (q.includes('print')) {
-                return 'Click the "Print" button on any post to open a print-friendly version. Great for bulletin boards and events!';
+                return 'Click "Print" on any post for a print-friendly version. Great for bulletin boards and events!';
             }
             if (q.includes('hashtag')) {
                 return 'Always use #CTEMonthMD and #DidYouKnow. Add topic-specific tags like #CareerReadyMD, #IndustryCredentials, #HealthcareCareers, or #DualEnrollment.';
             }
 
-            return 'I can help you share posts, create new content, or learn about CTE Month. Try asking "How do I share a post?" or "How do I create a new post?"';
+            return 'I can help you share posts or create new ones! Try asking "Walk me through sharing a post" or "What posts are available?"';
         }
     </script>
 </body>

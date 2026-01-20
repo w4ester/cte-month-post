@@ -1352,37 +1352,43 @@ Maryland CTE Context:${contextFacts || '\n- Maryland has 14 Career Clusters with
         let chatEngineLoading = false;
         const CHAT_MODEL = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
 
-        // Site knowledge base for the chatbot
+        // Get current page context
+        const currentPage = window.location.pathname;
+        const isIntakePage = currentPage.includes('intake');
+
+        // Site knowledge base for the chatbot - CONTEXT AWARE
         const siteKnowledge = `
-You are a helpful assistant for the Maryland CTE Month 2026 "Did You Know?" Social Media Toolkit.
+You are a friendly CTE Month helper for the Maryland "Did You Know?" Social Media Toolkit.
 
-ABOUT THIS PAGE (Post Generator/Intake Form):
-- This page helps users CREATE new social media posts
-- Users can use AI Writing Assistant OR fill out the form manually
-- After generating, users can copy content for social media
+CURRENT PAGE: Post Creator (intake.html)
+The user is on the POST CREATOR PAGE where they can create new social media posts.
 
-HOW TO USE THIS PAGE:
-1. Enter a topic in the AI Writing Assistant and click "Generate with AI"
-2. Or fill out the form manually: title, content, hashtags, URL
-3. Choose a gradient style (Default, Gold, Teal, or Blue)
-4. Click "Generate Post" to create outputs
-5. Use "Social Copy" tab for direct social media posting
-6. Use "HTML" and "JavaScript" tabs for adding to the toolkit
+QUICK WORKFLOW FOR THIS PAGE:
+1. TOP SECTION: AI Writing Assistant - enter a topic, click "Generate with AI"
+2. FORM BELOW: Title, content, hashtags, QR link, gradient style
+3. PREVIEW: See your post update live on the right
+4. GENERATE: Click "Generate Post" button
+5. COPY: Go to "Social Copy" tab, click "Copy to Clipboard"
+6. POST: Paste into Twitter, Facebook, LinkedIn, or Instagram!
 
-GRADIENT STYLES:
-- Default (Red→Blue): General CTE topics
-- Gold: Achievements, credentials, milestones
-- Teal: Partnerships, organizations
-- Blue: Technical/digital topics
+THE AI WRITING ASSISTANT (Blue section at top):
+- Enter any CTE topic (like "Healthcare Careers" or "Dual Enrollment")
+- Click "Generate with AI" - it fills in title and content automatically
+- Click the topic pills for quick suggestions
+- If WebGPU isn't available, it uses smart templates instead
 
-MARYLAND CTE FACTS:
-- 14 Career Clusters with 48 Programs of Study
-- 211+ MSDE-approved Industry-Recognized Credentials
-- 4 CTSOs: SkillsUSA, FBLA, FFA, Educators Rising
-- Healthcare is the largest cluster with 10 programs
-- Students can earn college credits through dual enrollment
+GRADIENT STYLES (Which color header?):
+- Default (Red→Blue): General CTE topics, most common
+- Gold: Achievements, credentials, milestone numbers
+- Teal: Partnerships, organizations, CTSOs
+- Blue: Technical topics, digital technology, cybersecurity
 
-Keep responses brief and helpful. Focus on how to use this form.`;
+AFTER GENERATING:
+- "Social Copy" tab = ready to paste into social media
+- "HTML" tab = code to add this post to the main toolkit page
+- "JavaScript" tab = data object for the posts gallery
+
+Keep responses SHORT (2-3 sentences max). Be encouraging! The goal is to help them create and share CTE facts quickly.`;
 
         function toggleChat() {
             const chatWindow = document.getElementById('chat-window');
@@ -1476,26 +1482,29 @@ Keep responses brief and helpful. Focus on how to use this form.`;
         function getFAQAnswer(question) {
             const q = question.toLowerCase();
 
+            if (q.includes('step') || q.includes('walk me') || q.includes('how do i create')) {
+                return 'Step by step: 1) Enter a topic in the blue AI box at top (like "Healthcare"), 2) Click "Generate with AI", 3) Preview updates on the right, 4) Click "Generate Post", 5) Go to "Social Copy" tab, 6) Click "Copy to Clipboard", 7) Paste to social media!';
+            }
             if (q.includes('ai') || q.includes('generate') || q.includes('write')) {
-                return 'To use the AI Writing Assistant: Enter a topic (like "Healthcare Careers" or "Dual Enrollment") in the AI section at the top, then click "Generate with AI". It will fill in the title and content for you!';
+                return 'The AI Writing Assistant is the blue box at the top! Enter any CTE topic and click "Generate with AI". It fills in the title and content automatically. Try topics like "Healthcare Careers" or "Dual Enrollment".';
             }
             if (q.includes('gradient') || q.includes('color') || q.includes('style')) {
-                return 'Choose a gradient style for your post header: Default (red→blue) for general topics, Gold for achievements, Teal for partnerships, or Blue for technical topics. Click the style you want before generating.';
+                return 'Choose your header color: Default (red→blue) for general topics, Gold for achievements & credentials, Teal for partnerships & CTSOs, Blue for tech & cybersecurity. Pick before clicking Generate Post!';
+            }
+            if (q.includes('add to') || q.includes('toolkit') || q.includes('main page') || q.includes('html') || q.includes('javascript')) {
+                return 'To add your post to the main gallery permanently: 1) Click "Generate Post", 2) Copy from the "HTML" tab, 3) Also copy from the "JavaScript" tab, 4) Add both to index.html (or email to your web team).';
             }
             if (q.includes('social') || q.includes('share') || q.includes('copy')) {
                 return 'After clicking "Generate Post", go to the "Social Copy" tab and click "Copy to Clipboard". Then paste directly into Twitter, Facebook, LinkedIn, or Instagram!';
             }
-            if (q.includes('html') || q.includes('javascript') || q.includes('add to toolkit')) {
-                return 'To add your post to the toolkit permanently: Use the "HTML" and "JavaScript" tabs after generating. Copy both outputs and add them to index.html (or send to your web team).';
-            }
             if (q.includes('hashtag')) {
-                return 'Always use #CTEMonthMD and #DidYouKnow (pre-checked). Add topic-specific tags like #CareerReadyMD, #IndustryCredentials, or type custom hashtags in the field.';
+                return '#CTEMonthMD and #DidYouKnow are pre-checked. Add topic tags like #CareerReadyMD, #IndustryCredentials, #HealthcareCareers. Type custom ones in the field!';
             }
             if (q.includes('qr') || q.includes('url') || q.includes('link')) {
-                return 'Enter an MSDE URL in the "QR Code Link" field. This creates a QR code in the post that links to more information. Use URLs from marylandpublicschools.org.';
+                return 'Enter an MSDE URL in the "QR Code Link" field to create a scannable QR code. Use URLs from marylandpublicschools.org like the program pages.';
             }
 
-            return 'I can help you create posts! Try asking "How do I use the AI assistant?" or "What gradient should I choose?" or "How do I share my post?"';
+            return 'I can help you create posts! Try "Walk me through step by step" or "Which color should I use?" or "How do I add to the main page?"';
         }
     </script>
 
@@ -1505,19 +1514,26 @@ Keep responses brief and helpful. Focus on how to use this form.`;
             <div class="chat-header">
                 <div>
                     <h4>Post Creator Helper</h4>
-                    <small>Ask me how to use this form</small>
+                    <small>intake.html - Create new posts</small>
                 </div>
                 <button class="chat-close" onclick="toggleChat()">&times;</button>
             </div>
             <div class="chat-messages" id="chat-messages">
                 <div class="chat-message bot">
-                    Hi! I can help you create CTE Month posts. Ask me about using the AI assistant, choosing gradient styles, or sharing your posts!
+                    <strong>Welcome to the Post Creator!</strong><br><br>
+                    <strong>Quick start:</strong><br>
+                    1. Enter a topic in the blue AI box at top<br>
+                    2. Click "Generate with AI"<br>
+                    3. Click "Generate Post" below<br>
+                    4. Copy from "Social Copy" tab<br>
+                    5. Paste to social media!<br><br>
+                    Ask me anything about creating posts!
                 </div>
             </div>
             <div class="quick-questions">
-                <button class="quick-q" onclick="askQuestion('How do I use the AI assistant?')">Use AI</button>
-                <button class="quick-q" onclick="askQuestion('What gradient should I choose?')">Gradients</button>
-                <button class="quick-q" onclick="askQuestion('How do I share my post?')">Share post</button>
+                <button class="quick-q" onclick="askQuestion('Walk me through creating a post step by step')">Step by step</button>
+                <button class="quick-q" onclick="askQuestion('Which gradient color should I use?')">Colors</button>
+                <button class="quick-q" onclick="askQuestion('How do I add my post to the main page?')">Add to toolkit</button>
             </div>
             <div class="chat-status" id="chat-status"></div>
             <div class="chat-input-area">
