@@ -649,7 +649,7 @@
 
     <div class="stats-bar">
         <div class="stat">
-            <div class="stat-value">9</div>
+            <div class="stat-value">10</div>
             <div class="stat-label">Posts Ready</div>
         </div>
         <div class="stat">
@@ -927,6 +927,34 @@
                 </div>
             </div>
         </article>
+        <!-- Gifted & Talented Post -->
+        <article class="post-card" id="post-gifted-talented">
+            <div class="post-header gold-gradient">
+                <span class="category">Did You Know?</span>
+                <h2>Giftedness Has Many Faces</h2>
+                <div class="platform">All Platforms</div>
+            </div>
+            <div class="post-image">
+                <img src="images/gifted-talented.jpg" alt="Gifted and Talented students shine in different ways" onerror="this.style.display='none'">
+            </div>
+            <div class="post-content" id="content-gifted-talented">
+                <p><strong>Did you know?</strong> Gifted and talented students shine in different ways - from math and reading to creativity, leadership, visual arts, and problem-solving. Talented students come from ALL backgrounds, cultures, and communities. Schools identify potential through multiple measures: tests, teacher observations, work samples, and creativity assessments. The goal? Find and develop potential everywhere!</p>
+                <p class="hashtags">#CTEMonthMD #DidYouKnow #EducationalEquity #GiftedEducation #TalentedStudents #EveryChildShines</p>
+            </div>
+            <div class="post-footer">
+                <div class="qr-section">
+                    <img class="qr-code" src="images/qr-gifted-talented.png" alt="QR Code for Gifted and Talented" onerror="this.style.background='#eee'">
+                    <div class="qr-info">Scan for more:<br>Gifted &amp; Talented</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="sharePost('gifted-talented')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('gifted-talented')">Image</button>
+                    <button class="btn btn-secondary" onclick="downloadPDF('gifted-talented')">PDF</button>
+                    <button class="btn btn-secondary" onclick="downloadDOCX('gifted-talented')">DOCX</button>
+                    <button class="btn btn-gold" onclick="printPost('gifted-talented')">Print</button>
+                </div>
+            </div>
+        </article>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -952,7 +980,7 @@
                     2. Click "Share" to copy text<br>
                     3. Click "Image" to download pic<br>
                     4. Paste both to social media!<br><br>
-                    9 posts ready to share. Ask me anything!
+                    10 posts ready to share. Ask me anything!
                 </div>
             </div>
             <div class="quick-questions">
@@ -1038,6 +1066,13 @@
                 content: `Did you know? Through the Methods of Administration monitoring process, MSDE has supported over 50,000 Maryland CTE students - improving physical access, facilitating compliance reviews, and using data to make Maryland's CTE programs more inclusive.
 
 #CTEMonthMD #DidYouKnow #ADACompliance #CTEImpact`
+            },
+            'gifted-talented': {
+                title: "Giftedness Has Many Faces",
+                url: "https://marylandpublicschools.org/programs/pages/gifted-talented/identification.aspx",
+                content: `Did you know? Gifted and talented students shine in different ways - from math and reading to creativity, leadership, visual arts, and problem-solving. Talented students come from ALL backgrounds, cultures, and communities. Schools identify potential through multiple measures: tests, teacher observations, work samples, and creativity assessments. The goal? Find and develop potential everywhere!
+
+#CTEMonthMD #DidYouKnow #EducationalEquity #GiftedEducation #TalentedStudents #EveryChildShines`
             }
         };
 
@@ -1341,12 +1376,12 @@
 You are a friendly CTE Month helper for the Maryland "Did You Know?" Social Media Toolkit.
 
 CURRENT PAGE: Posts Gallery (index.html)
-The user is on the MAIN GALLERY PAGE with 9 ready-to-share CTE Month posts.
+The user is on the MAIN GALLERY PAGE with 10 ready-to-share CTE Month posts.
 
 WHAT'S ON THIS PAGE:
-- 9 "Did You Know?" post cards about Maryland CTE
+- 10 "Did You Know?" post cards about Maryland CTE
 - Each card has: Share, Image, PDF, DOCX, and Print buttons
-- Stats bar showing: 9 Posts, 14 Career Clusters, 48 Programs, 211 IRCs
+- Stats bar showing: 10 Posts, 14 Career Clusters, 48 Programs, 211 IRCs
 - "+ Create New Post" button at top goes to the Post Creator
 
 QUICK WORKFLOW - SHARING A POST:
@@ -1356,7 +1391,7 @@ QUICK WORKFLOW - SHARING A POST:
 4. Paste into Twitter, Facebook, LinkedIn, or Instagram
 5. Attach the image if it didn't paste automatically
 
-THE 9 POSTS AVAILABLE:
+THE 10 POSTS AVAILABLE:
 1. Career Clusters & Programs (14 clusters, 48 programs)
 2. Industry-Recognized Credentials (211+ credentials)
 3. Student Organizations - CTSOs (SkillsUSA, FBLA, FFA, Educators Rising)
@@ -1366,6 +1401,7 @@ THE 9 POSTS AVAILABLE:
 7. Digital Technology Pathways (4 tech programs)
 8. CTE Access for All (MOA equity program)
 9. 50,000+ Students Supported (MOA impact)
+10. Giftedness Has Many Faces (gifted & talented identification)
 
 OTHER OPTIONS:
 - "PDF" = download as PDF document
