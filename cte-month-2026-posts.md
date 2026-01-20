@@ -66,12 +66,12 @@
 
 ---
 
-## Submission 5: Postsecondary CTE Pathways
+## Submission 5: Earn College Credits in High School
 
 **Submitted by:** W4ester
 
 **Text:**
-> Did you know? Maryland high school students can earn college credits before graduation through dual enrollment, articulated credit, and early college programs like P-TECH and Bard Baltimore - where students can earn up to 60 college credits tuition-free while in high school. #CTEMonthMD #DidYouKnow #DualEnrollment #EarlyCollege
+> Did you know? Maryland high school students can earn college credits before graduation through dual enrollment, articulated credit, and early college programs - getting a head start on their future while still in high school. #CTEMonthMD #DidYouKnow #DualEnrollment #EarlyCollege
 
 **Visual:** High school students in early college or dual enrollment settings
 
