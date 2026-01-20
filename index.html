@@ -408,7 +408,7 @@
 
     <div class="stats-bar">
         <div class="stat">
-            <div class="stat-value">7</div>
+            <div class="stat-value">9</div>
             <div class="stat-label">Posts Ready</div>
         </div>
         <div class="stat">
@@ -623,6 +623,60 @@
                 </div>
             </div>
         </article>
+        <!-- MOA Educational Equity Post -->
+        <article class="post-card" id="post-moa-equity">
+            <div class="post-header teal-gradient">
+                <span class="category">Did You Know?</span>
+                <h2>CTE Access for All</h2>
+                <div class="platform">All Platforms</div>
+            </div>
+            <div class="post-image">
+                <img src="images/moa-equity.jpg" alt="Diverse CTE students accessing high-quality programs" onerror="this.style.display='none'">
+            </div>
+            <div class="post-content" id="content-moa-equity">
+                <p><strong>Did you know?</strong> MSDE's Methods of Administration (MOA) program ensures high-quality Career and Technical Education is accessible to all Maryland students - identifying and removing barriers related to race, gender, and disability to open doors to high-wage, high-skill careers for everyone.</p>
+                <p class="hashtags">#CTEMonthMD #DidYouKnow #EducationalEquity #AccessForAll</p>
+            </div>
+            <div class="post-footer">
+                <div class="qr-section">
+                    <img class="qr-code" src="images/qr-moa-equity.png" alt="QR Code for MOA Program" onerror="this.style.background='#eee'">
+                    <div class="qr-info">Scan for more:<br>MOA Program</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="copyPost('moa-equity')">Copy</button>
+                    <button class="btn btn-secondary" onclick="downloadPDF('moa-equity')">PDF</button>
+                    <button class="btn btn-secondary" onclick="downloadDOCX('moa-equity')">DOCX</button>
+                    <button class="btn btn-gold" onclick="printPost('moa-equity')">Print</button>
+                </div>
+            </div>
+        </article>
+        <!-- MOA Impact Post -->
+        <article class="post-card" id="post-moa-impact">
+            <div class="post-header gold-gradient">
+                <span class="category">Did You Know?</span>
+                <h2>50,000+ CTE Students Supported</h2>
+                <div class="platform">All Platforms</div>
+            </div>
+            <div class="post-image">
+                <img src="images/moa-impact.jpg" alt="CTE students benefiting from MOA monitoring" onerror="this.style.display='none'">
+            </div>
+            <div class="post-content" id="content-moa-impact">
+                <p><strong>Did you know?</strong> Through the Methods of Administration monitoring process, MSDE has supported over 50,000 Maryland CTE students - improving physical access, facilitating compliance reviews, and using data to make Maryland's CTE programs more inclusive.</p>
+                <p class="hashtags">#CTEMonthMD #DidYouKnow #ADACompliance #CTEImpact</p>
+            </div>
+            <div class="post-footer">
+                <div class="qr-section">
+                    <img class="qr-code" src="images/qr-moa-impact.png" alt="QR Code for MOA Program" onerror="this.style.background='#eee'">
+                    <div class="qr-info">Scan for more:<br>MOA Monitoring</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="copyPost('moa-impact')">Copy</button>
+                    <button class="btn btn-secondary" onclick="downloadPDF('moa-impact')">PDF</button>
+                    <button class="btn btn-secondary" onclick="downloadDOCX('moa-impact')">DOCX</button>
+                    <button class="btn btn-gold" onclick="printPost('moa-impact')">Print</button>
+                </div>
+            </div>
+        </article>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -681,6 +735,20 @@
                 content: `Did you know? Maryland's Digital Technology cluster offers 4 Programs of Study - Computer Programming, Cybersecurity, Machine Learning Data Science, and Networking. Students can earn industry credentials and prepare for high-demand tech careers while still in high school.
 
 #CTEMonthMD #DidYouKnow #DigitalTechnology #TechCareers`
+            },
+            'moa-equity': {
+                title: "CTE Access for All",
+                url: "https://marylandpublicschools.org/programs/Pages/CTE/CTE%20Accountability/moa-program.aspx",
+                content: `Did you know? MSDE's Methods of Administration (MOA) program ensures high-quality Career and Technical Education is accessible to all Maryland students - identifying and removing barriers related to race, gender, and disability to open doors to high-wage, high-skill careers for everyone.
+
+#CTEMonthMD #DidYouKnow #EducationalEquity #AccessForAll`
+            },
+            'moa-impact': {
+                title: "50,000+ CTE Students Supported",
+                url: "https://marylandpublicschools.org/programs/Pages/CTE/CTE%20Accountability/moa-program.aspx",
+                content: `Did you know? Through the Methods of Administration monitoring process, MSDE has supported over 50,000 Maryland CTE students - improving physical access, facilitating compliance reviews, and using data to make Maryland's CTE programs more inclusive.
+
+#CTEMonthMD #DidYouKnow #ADACompliance #CTEImpact`
             }
         };
 
