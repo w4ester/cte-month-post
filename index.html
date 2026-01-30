@@ -649,7 +649,7 @@
 
     <div class="stats-bar">
         <div class="stat">
-            <div class="stat-value">13</div>
+            <div class="stat-value">14</div>
             <div class="stat-label">Posts Ready</div>
         </div>
         <div class="stat">
@@ -1039,6 +1039,34 @@
                 </div>
             </div>
         </article>
+        <!-- Frederick County Industry Partnerships Post -->
+        <article class="post-card" id="post-frederick-county">
+            <div class="post-header gold-gradient">
+                <span class="category">Did You Know?</span>
+                <h2>Industry Partnerships in Frederick County</h2>
+                <div class="platform">All Platforms</div>
+            </div>
+            <div class="post-image">
+                <img src="images/frederick_county.png" alt="Frederick County CTE industry partnerships" onerror="this.style.display='none'">
+            </div>
+            <div class="post-content" id="content-frederick-county">
+                <p><strong>Did you know?</strong> Career and Technical Education (CTE) programs are shaped by real workforce needs through required Local Advisory Committees (LACs) - a key component of the Perkins V legislation. In Frederick County, educators and local business and industry leaders come together to share insights that ensure CTE programs align with local employment demands and students gain in-demand skills, access apprenticeships, and graduate ready for meaningful college and career pathways right here at home.</p>
+                <p class="hashtags">#CTEMonthMD #DidYouKnow #IndustryPartnerships #LocalAdvisoryCommittees #FrederickCounty</p>
+            </div>
+            <div class="post-footer">
+                <div class="qr-section">
+                    <img class="qr-code" src="images/qr-frederick-county.png" alt="QR Code for Frederick County Video" onerror="this.style.background='#eee'">
+                    <div class="qr-info">Scan to watch:<br>Frederick County Partnerships</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="sharePost('frederick-county')">Share</button>
+                    <button class="btn btn-teal" onclick="downloadImage('frederick-county')">Image</button>
+                    <button class="btn btn-secondary" onclick="downloadPDF('frederick-county')">PDF</button>
+                    <button class="btn btn-secondary" onclick="downloadDOCX('frederick-county')">DOCX</button>
+                    <button class="btn btn-gold" onclick="printPost('frederick-county')">Print</button>
+                </div>
+            </div>
+        </article>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -1178,6 +1206,13 @@
                 content: `Did you know? Digital Learning Day is a statewide celebration of how students and educators across Maryland are using technology to deepen learning, spark creativity, and increase access and equity. Through MSDE initiatives, schools are expanding virtual learning, blended instruction, digital citizenship, and emerging technologies like AI - building the skills students need for college, careers, and civic life.
 
 #CTEMonthMD #DidYouKnow #DigitalLearningDay #FutureReadyMD #EdTech`
+            },
+            'frederick-county': {
+                title: "Industry Partnerships in Frederick County",
+                url: "https://www.youtube.com/watch?v=RkZUZ8yL3xQ",
+                content: `Did you know? Career and Technical Education (CTE) programs are shaped by real workforce needs through required Local Advisory Committees (LACs) - a key component of the Perkins V legislation. In Frederick County, educators and local business and industry leaders come together to share insights that ensure CTE programs align with local employment demands and students gain in-demand skills, access apprenticeships, and graduate ready for meaningful college and career pathways right here at home.
+
+#CTEMonthMD #DidYouKnow #IndustryPartnerships #LocalAdvisoryCommittees #FrederickCounty`
             }
         };
 
@@ -1481,7 +1516,7 @@
 You are a friendly CTE Month helper for the Maryland "Did You Know?" Social Media Toolkit.
 
 CURRENT PAGE: Posts Gallery (index.html)
-The user is on the MAIN GALLERY PAGE with 11 ready-to-share CTE Month posts.
+The user is on the MAIN GALLERY PAGE with 14 ready-to-share CTE Month posts.
 
 WHAT'S ON THIS PAGE:
 - 11 "Did You Know?" post cards about Maryland CTE
@@ -1496,7 +1531,7 @@ QUICK WORKFLOW - SHARING A POST:
 4. Paste into Twitter, Facebook, LinkedIn, or Instagram
 5. Attach the image if it didn't paste automatically
 
-THE 11 POSTS AVAILABLE:
+THE 14 POSTS AVAILABLE:
 1. Career Clusters & Programs (14 clusters, 48 programs)
 2. Industry-Recognized Credentials (211+ credentials)
 3. Student Organizations - CTSOs (SkillsUSA, FBLA, FFA, Educators Rising)
@@ -1508,6 +1543,9 @@ THE 11 POSTS AVAILABLE:
 9. 50,000+ Students Supported (MOA impact)
 10. Giftedness Has Many Faces (gifted & talented identification)
 11. P-Tech (high school diploma + Associate's degree program)
+12. MSDE AI Hub (AI resources for K-12)
+13. Digital Learning Day (technology in education)
+14. Industry Partnerships in Frederick County (LACs and Perkins V)
 
 OTHER OPTIONS:
 - "PDF" = download as PDF document
@@ -1615,7 +1653,7 @@ Keep responses SHORT (2-3 sentences max). Be encouraging!`;
                 return 'To share a post: 1) Find a post you like, 2) Click "Share" - on mobile it opens share sheet, on desktop copies text, 3) Click "Image" to download the picture, 4) Paste both into Twitter, Facebook, LinkedIn, or Instagram!';
             }
             if (q.includes('what posts') || q.includes('available') || q.includes('see all')) {
-                return 'We have 11 posts ready: Career Clusters, Industry Credentials, CTSOs (student orgs), Healthcare Pathways, College Credits, CCR Standard, Digital Technology, CTE Access for All, 50,000+ Students Supported, Giftedness Has Many Faces, and P-Tech. Scroll down to see them all!';
+                return 'We have 14 posts ready: Career Clusters, Industry Credentials, CTSOs, Healthcare Pathways, College Credits, CCR Standard, Digital Technology, CTE Access for All, 50,000+ Students Supported, Giftedness Has Many Faces, P-Tech, MSDE AI Hub, Digital Learning Day, and Frederick County Industry Partnerships. Scroll down to see them all!';
             }
             if (q.includes('create') || q.includes('new post') || q.includes('make a post') || q.includes('my own')) {
                 return 'Click "+ Create New Post" at the top! On that page, enter a topic in the AI box, click "Generate with AI", then "Generate Post", and copy from the "Social Copy" tab.';
